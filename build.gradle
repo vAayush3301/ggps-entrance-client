@@ -1,12 +1,30 @@
 plugins {
     id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
 }
+
 
 group = 'av.exam'
 version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+javafx {
+    version = "21"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
+application {
+    mainClass = 'av.entrance.client.Client'
 }
 
 dependencies {
