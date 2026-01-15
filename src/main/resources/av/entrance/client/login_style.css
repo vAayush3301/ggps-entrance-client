@@ -1,0 +1,36 @@
+@font-face {
+    font-family: "Open Sans";
+    src: url("fonts/open_sans_variable.ttf");
+}
+.root {
+    -fx-font-family: "Open Sans";
+    -fx-background-color: #FFFFFF;
+}
+.label {
+    -fx-text-fill: #1b1726;
+}
+.form-card {
+    -fx-background-color: #faf8f2;
+    -fx-background-radius: 16;
+
+    -fx-border-color: #3a3a3a;
+    -fx-border-width: 1.2;
+    -fx-border-radius: 16;
+
+    -fx-padding: 28 32;
+}
+
+.text-field, .password-field {
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-padding: 8 12;
+}
+.button {
+    -fx-background-color: #4f46e5;
+    -fx-text-fill: white;
+    -fx-background-radius: 10;
+    -fx-padding: 8 28;
+}
+.button:hover {
+    -fx-background-color: #4338ca;
+}
