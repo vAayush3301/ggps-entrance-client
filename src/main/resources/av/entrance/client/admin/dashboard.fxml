@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<BorderPane stylesheets="@../styles/dashboard_style.css" xmlns="http://javafx.com/javafx/17.0.12"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="av.entrance.client.controller.admin.DashboardController">
+    <top>
+        <HBox spacing="16" alignment="CENTER_RIGHT">
+            <padding>
+                <Insets top="20" right="40" bottom="20" left="40"/>
+            </padding>
+            <Label text="Active Tests" style="-fx-font-size: 24px; -fx-font-weight: bold;" HBox.hgrow="ALWAYS"/>
+            <Button text="Create New Test" fx:id="createTest" />
+            <Button text="Logout" style="-fx-background-color: #bb2121;" fx:id="logout" onAction="#logout"/>
+        </HBox>
+    </top>
+    <center>
+        <VBox spacing="16">
+            <padding>
+                <Insets top="10" right="40" bottom="30" left="40"/>
+            </padding>
+            <Separator prefHeight="1.0" maxWidth="Infinity"/>
+            <ListView prefHeight="300.0" maxWidth="Infinity"/>
+        </VBox>
+    </center>
+</BorderPane>

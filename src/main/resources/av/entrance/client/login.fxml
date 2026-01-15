@@ -5,7 +5,8 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<BorderPane xmlns="http://javafx.com/javafx"
+<BorderPane stylesheets="@styles/login_style.css"
+            xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="av.entrance.client.controller.LoginController">
     <center>
@@ -20,15 +21,16 @@
 
             <Label text="Login" style="-fx-font-size: 26px; -fx-font-weight: bold;"/>
 
-            <VBox alignment="CENTER" spacing="22" prefWidth="360" minWidth="360" maxWidth="360" styleClass="form-card">
+            <VBox alignment="CENTER" spacing="22" prefWidth="360" minWidth="360" maxWidth="400" styleClass="form-card">
                 <GridPane hgap="16" vgap="14">
                     <Label text="User ID:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                    <TextField fx:id="useridField" prefWidth="240" promptText="Enter User ID" GridPane.rowIndex="0"
+                    <TextField fx:id="useridField" prefWidth="200" promptText="Enter User ID" GridPane.rowIndex="0"
                                GridPane.columnIndex="1"/>
 
                     <Label text="Password:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                    <PasswordField fx:id="passwordField" prefWidth="240" promptText="Enter Password" GridPane.rowIndex="1"
-                               GridPane.columnIndex="1"/>
+                    <PasswordField fx:id="passwordField" prefWidth="200" promptText="Enter Password"
+                                   GridPane.rowIndex="1"
+                                   GridPane.columnIndex="1"/>
                 </GridPane>
             </VBox>
 

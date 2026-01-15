@@ -1,10 +1,16 @@
 package av.entrance.client.controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class LoginController {
     private static final String ADMIN_USERID = "admin0";
@@ -14,7 +20,7 @@ public class LoginController {
     @FXML private Label responseLabel;
 
     @FXML
-    private void handleLogin() {
+    private void handleLogin() throws IOException {
         String user = useridField.getText();
         String password = passwordField.getText();
 
@@ -24,7 +30,15 @@ public class LoginController {
         }
 
         if (user.equals(ADMIN_USERID) && password.equals(ADMIN_PWD)) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/av/entrance/client/admin/dashboard.fxml"));
+            Parent root = loader.load();
+
             responseLabel.setText("Admin Logged In");
+
+            Stage stage = (Stage) useridField.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Admin Dashboard");
+            stage.show();
         } else if (!password.isEmpty()){
             responseLabel.setText("Invalid Password");
         } else {
