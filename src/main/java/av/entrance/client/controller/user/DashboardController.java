@@ -1,4 +1,4 @@
-package av.entrance.client.controller.admin;
+package av.entrance.client.controller.user;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,16 +16,6 @@ public class DashboardController {
     @FXML
     private void logout() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/av/entrance/client/login.fxml"));
-        Parent root = loader.load();
-
-        Stage stage = (Stage) logout.getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.setTitle("Entrance Exam - Guru Gobind Singh Public School - Dhanbad");
-        stage.show();
-    }
-
-    public void createTest() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/av/entrance/client/admin/new_test.fxml"));
         Parent root = loader.load();
 
         Stage stage = (Stage) logout.getScene().getWindow();

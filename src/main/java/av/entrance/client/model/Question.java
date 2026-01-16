@@ -1,6 +1,9 @@
 package av.entrance.client.model;
 
+import java.io.Serializable;
+
 public class Question {
+
     private String questionText;
     private String option1, option2, option3, option4;
     private String correctOption;

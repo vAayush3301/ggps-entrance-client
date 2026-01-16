@@ -42,7 +42,15 @@ public class LoginController {
         } else if (!password.isEmpty()){
             responseLabel.setText("Invalid Password");
         } else {
-            responseLabel.setText("User Logged in");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/av/entrance/client/user/dashboard.fxml"));
+            Parent root = loader.load();
+
+            responseLabel.setText("User Logged In");
+
+            Stage stage = (Stage) useridField.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("User Dashboard");
+            stage.show();
         }
     }
 

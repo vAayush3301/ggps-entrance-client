@@ -1,12 +1,8 @@
 package av.entrance.client.model;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.util.List;
 
-public class Test implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class Test {
 
     private String testName;
     private List<Question> questions;
@@ -14,6 +10,9 @@ public class Test implements Serializable {
     public Test(String testName, List<Question> questions) {
         this.testName = testName;
         this.questions = questions;
+    }
+
+    public Test() {
     }
 
     public String getTestName() {

@@ -16,7 +16,7 @@
             </padding>
 
             <ImageView fitWidth="90" preserveRatio="true">
-                <Image url="@images/logos/logo.png"/>
+<!--                <Image url="@images/logos/logo.png"/>-->
             </ImageView>
 
             <Label text="Login" style="-fx-font-size: 26px; -fx-font-weight: bold;"/>
