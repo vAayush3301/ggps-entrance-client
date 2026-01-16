@@ -13,6 +13,11 @@ public class Test {
         this.questions = questions;
     }
 
+    public Test(String testName, List<Question> questions) {
+        this.testName = testName;
+        this.questions = questions;
+    }
+
     public Test() {
     }
 
