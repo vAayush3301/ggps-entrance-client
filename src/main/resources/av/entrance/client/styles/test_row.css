@@ -1,0 +1,8 @@
+@font-face {
+    font-family: "Open Sans";
+    src: url("fonts/open_sans_variable.ttf");
+}
+.root {
+    -fx-font-family: "Open Sans";
+    -fx-background-color: #FFFFFF;
+}

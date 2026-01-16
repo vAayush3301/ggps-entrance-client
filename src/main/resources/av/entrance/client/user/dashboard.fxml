@@ -23,7 +23,7 @@
             </padding>
             <Separator prefHeight="1.0" maxWidth="Infinity"/>
             <Label text="Available Tests" prefWidth="240"/>
-            <ListView prefHeight="300.0" maxWidth="Infinity"/>
+            <ListView prefHeight="300.0" maxWidth="Infinity" fx:id="availableTest"/>
         </VBox>
     </center>
 </BorderPane>
