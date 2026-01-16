@@ -1,4 +1,4 @@
-package av.entrance.client.service.admin;
+package av.entrance.client.service;
 
 import av.entrance.client.model.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,10 +10,10 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class ApiService extends Service<String> {
+public class UploadTestService extends Service<String> {
     private final Test test;
 
-    public ApiService(Test test) {
+    public UploadTestService(Test test) {
         this.test = test;
     }
 

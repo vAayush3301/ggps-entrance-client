@@ -12,13 +12,16 @@ public class Client extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/av/entrance/client/login.fxml")));
+        Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/av/entrance/client/user/dashboard.fxml")));
         scene.getStylesheets().add(getClass().getResource("/av/entrance/client/styles/login_style.css").toExternalForm());
 
         stage.setTitle("Entrance Exam - Guru Gobind Singh Public School - Dhanbad");
         stage.setScene(scene);
-        stage.setResizable(false);
-        stage.sizeToScene();
+
+        stage.setFullScreen(true);
+
+//        stage.setResizable(false);
+//        stage.sizeToScene();
         stage.show();
     }
 }

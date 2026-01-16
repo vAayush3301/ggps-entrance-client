@@ -2,6 +2,7 @@ package av.entrance.client.controller.user;
 
 import av.entrance.client.controller.user.items.TestRowController;
 import av.entrance.client.model.Test;
+import av.entrance.client.service.DownloadTestService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -35,11 +36,15 @@ public class DashboardController {
 
     @FXML
     public void initialize() {
-        ObservableList<Test> tests = FXCollections.observableArrayList();
-        tests.add(new Test("Math Test", List.of()));
-        tests.add(new Test("Physics Test", List.of()));
+        DownloadTestService downloadTest = new DownloadTestService();
 
-        availableTest.setItems(tests);
+        downloadTest.setOnSucceeded(event -> {
+            ObservableList<Test> tests = FXCollections.observableArrayList(downloadTest.getValue());
+
+            availableTest.setItems(tests);
+        });
+
+        downloadTest.start();
 
         availableTest.setCellFactory(listView -> new ListCell<Test>() {
             @Override

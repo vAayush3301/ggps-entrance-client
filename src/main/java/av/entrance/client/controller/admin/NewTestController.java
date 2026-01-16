@@ -2,7 +2,7 @@ package av.entrance.client.controller.admin;
 
 import av.entrance.client.model.Question;
 import av.entrance.client.model.Test;
-import av.entrance.client.service.admin.ApiService;
+import av.entrance.client.service.UploadTestService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -149,7 +149,7 @@ public class NewTestController {
     public void publish() {
         Test test = new Test(testName.getText(), questions);
 
-        ApiService service = new ApiService(test);
+        UploadTestService service = new UploadTestService(test);
         service.setOnSucceeded(e -> {
             String response = service.getValue();
             System.out.println("Server response: " + response);
