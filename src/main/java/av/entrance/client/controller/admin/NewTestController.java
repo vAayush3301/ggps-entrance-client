@@ -1,7 +1,8 @@
 package av.entrance.client.controller.admin;
 
 import av.entrance.client.model.Question;
-import javafx.event.ActionEvent;
+import av.entrance.client.model.Test;
+import av.entrance.client.service.admin.ApiService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -30,7 +31,7 @@ public class NewTestController {
     private Label questionCount;
 
     private List<Question> questions = new ArrayList<>();
-    private HashMap<Integer, Button> questionButtons = new HashMap<Integer, Button>();
+    private HashMap<Integer, Button> questionButtons = new HashMap<>();
     private int currentQuestion = 1;
 
     @FXML
@@ -146,6 +147,23 @@ public class NewTestController {
     }
 
     public void publish() {
+        Test test = new Test(testName.getText(), questions);
 
+        ApiService service = new ApiService(test);
+        service.setOnSucceeded(e -> {
+            String response = service.getValue();
+            System.out.println("Server response: " + response);
+
+            questionResponse.setText("Test Published");
+        });
+
+        service.setOnFailed(e -> {
+            Throwable ex = service.getException();
+            ex.printStackTrace();
+
+            questionResponse.setText("Failed to publish Test");
+        });
+
+        service.start();
     }
 }
