@@ -36,7 +36,7 @@
 
             <Button text="Login" prefWidth="120" onAction="#handleLogin"/>
 
-            <Label text="" alignment="CENTER" fx:id="responseLabel"/>
+            <Label alignment="CENTER" fx:id="responseLabel"/>
         </VBox>
     </center>
 

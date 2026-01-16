@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane stylesheets="@../styles/new_test_style.css"
+            xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="av.entrance.client.controller.admin.NewTestController">
+
+    <top>
+        <HBox spacing="16" alignment="CENTER_RIGHT">
+            <padding>
+                <Insets top="20" right="40" bottom="20" left="40"/>
+            </padding>
+            <Button text="Cancel" style="-fx-background-color: #bb2121;" fx:id="cancel" onAction="#cancel"/>
+            <Label text="Blank Test" fx:id="testName" style="-fx-font-weight: bold; -fx-font-size: 24px;" alignment="CENTER"
+                   prefWidth="800"/>
+            <Button text="Publish" onAction="#publish"/>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="16">
+            <padding>
+                <Insets top="20" right="40" bottom="20" left="40"/>
+            </padding>
+
+            <Label text="Test Name:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField promptText="Enter Test Name" prefWidth="600" fx:id="testNameEdit"/>
+
+            <GridPane hgap="16" vgap="14">
+                <Label text="1." fx:id="questionCount" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+
+                <Label text="Question:" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                <TextField fx:id="questionField" promptText="Enter Question" GridPane.rowIndex="0"
+                           GridPane.columnIndex="2" prefWidth="500"/>
+
+                <Label text="Option 1:" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                <TextField promptText="Enter Option" GridPane.rowIndex="1" GridPane.columnIndex="2" maxWidth="300"
+                           fx:id="o1"/>
+
+                <Label text="Option 2:" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                <TextField promptText="Enter Option" GridPane.rowIndex="2" GridPane.columnIndex="2" maxWidth="300"
+                           fx:id="o2"/>
+
+                <Label text="Option 3:" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                <TextField promptText="Enter Option" GridPane.rowIndex="3" GridPane.columnIndex="2" maxWidth="300"
+                           fx:id="o3"/>
+
+                <Label text="Option 4:" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                <TextField promptText="Enter Option" GridPane.rowIndex="4" GridPane.columnIndex="2" maxWidth="300"
+                           fx:id="o4"/>
+
+                <Label text="Correct Option:" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+                <TextField promptText="Enter Correct Option Code" GridPane.rowIndex="6" GridPane.columnIndex="2"
+                           maxWidth="300" fx:id="co"/>
+            </GridPane>
+
+            <HBox spacing="40" alignment="CENTER_RIGHT">
+                <Label fx:id="questionResponse" prefWidth="400"/>
+                <Button text="Previous" fx:id="previousQuestionBtn" onAction="#handlePrevious"/>
+                <Button text="Next" fx:id="nextQuestionBtn" onAction="#handleNext"/>
+            </HBox>
+
+            <HBox spacing="20" alignment="CENTER_LEFT" fx:id="qNoBox">
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
+            </HBox>
+
+        </VBox>
+    </center>
+
+</BorderPane>

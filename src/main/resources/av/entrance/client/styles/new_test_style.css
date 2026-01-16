@@ -1,0 +1,22 @@
+@font-face {
+    font-family: "Open Sans";
+    src: url("fonts/open_sans_variable.ttf");
+}
+.root {
+    -fx-font-family: "Open Sans";
+    -fx-background-color: #FFFFFF;
+}
+.button {
+    -fx-background-color: #4f46e5;
+    -fx-text-fill: white;
+    -fx-background-radius: 10;
+    -fx-padding: 8 28;
+}
+.button:hover {
+    -fx-background-color: #4338ca;
+}
+.question-btn, .qNoBox {
+    -fx-padding: 6 12;
+    -fx-background-color: #29941e;
+    -fx-pref-width: 120;
+}

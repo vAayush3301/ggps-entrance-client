@@ -12,8 +12,8 @@
             <padding>
                 <Insets top="20" right="40" bottom="20" left="40"/>
             </padding>
-            <Label text="Active Tests" style="-fx-font-size: 24px; -fx-font-weight: bold;" HBox.hgrow="ALWAYS"/>
-            <Button text="Create New Test" fx:id="createTest" />
+            <Label text="Active Tests" prefWidth="240" style="-fx-font-size: 24px; -fx-font-weight: bold;" HBox.hgrow="ALWAYS"/>
+            <Button text="Create New Test" fx:id="createTest" onAction="#createTest" />
             <Button text="Logout" style="-fx-background-color: #bb2121;" fx:id="logout" onAction="#logout"/>
         </HBox>
     </top>
