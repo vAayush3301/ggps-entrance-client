@@ -5,11 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.Arrays;
+import java.time.Duration;
 import java.util.List;
 
 public class DownloadTestService extends Service<List<Test>> {
@@ -17,21 +18,31 @@ public class DownloadTestService extends Service<List<Test>> {
     protected Task<List<Test>> createTask() {
         return new Task<>() {
             @Override
-            protected List<Test> call() throws Exception {
-                HttpClient client = HttpClient.newHttpClient();
+            protected List<Test> call() throws IOException, InterruptedException {
 
-                HttpRequest request = HttpRequest.newBuilder()
-                        .uri(URI.create("https://ggps-entrance.onrender.com/api/test/get_tests"))
-                        .GET()
-                        .build();
+                try {
+                    HttpClient client = HttpClient.newHttpClient();
 
-                HttpResponse<String> response =
-                        client.send(request, HttpResponse.BodyHandlers.ofString());
+                    HttpRequest request = HttpRequest.newBuilder()
+                            .uri(URI.create("https://ggps-entrance.onrender.com/api/test/get_tests"))
+                            .timeout(Duration.ofSeconds(40))
+                            .GET()
+                            .build();
 
-                ObjectMapper mapper = new ObjectMapper();
+                    HttpResponse<String> response =
+                            client.send(request, HttpResponse.BodyHandlers.ofString());
+                    System.out.println(response.body());
 
-                Test[] testsArray = mapper.readValue(response.body(), Test[].class);
-                return Arrays.asList(testsArray);
+                    ObjectMapper mapper = new ObjectMapper();
+
+                    Test[] testsArray = mapper.readValue(response.body(), Test[].class);
+                    System.out.println(testsArray);
+
+                    return List.of(testsArray);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    throw e;
+                }
             }
         };
     }
