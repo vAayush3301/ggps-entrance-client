@@ -14,7 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExamController {
-    private final List<Question> questions = new ArrayList<>();
+    public Label testName;
+    private List<Question> questions = new ArrayList<>();
     private final List<Response> responses = new ArrayList<>();
     public RadioButton o1, o2, o3, o4;
     public Label questionCount;
@@ -28,9 +29,10 @@ public class ExamController {
         DownloadTestService downloadTest = new DownloadTestService();
         downloadTest.setOnSucceeded(event -> {
             List<Test> tests = downloadTest.getValue();
-            System.out.println(tests.get(0).getTestName());
+            testName.setText(tests.get(0).getTestName());
 
-            loadQuestion(currentCount - 1);
+            questions = tests.get(0).getQuestions();
+            loadQuestion(currentCount);
         });
 
         downloadTest.start();
