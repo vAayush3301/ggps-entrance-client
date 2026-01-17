@@ -9,12 +9,14 @@
             fx:controller="av.entrance.client.controller.admin.NewTestController">
 
     <top>
-        <HBox spacing="16" alignment="CENTER_RIGHT">
+        <HBox spacing="16" alignment="CENTER">
             <padding>
                 <Insets top="20" right="40" bottom="20" left="40"/>
             </padding>
-            <Button text="Close" style="-fx-background-color: #bb2121;" fx:id="cancel" onAction="#cancel"/>
-            <Label text="Blank Test" fx:id="testName" style="-fx-font-weight: bold; -fx-font-size: 24px;" alignment="CENTER"
+            <Button text="Close" style="-fx-background-color: #bb2121;" fx:id="cancel" onAction="#cancel"
+                    HBox.hgrow="ALWAYS"/>
+            <Label text="Blank Test" fx:id="testName" style="-fx-font-weight: bold; -fx-font-size: 24px;"
+                   HBox.hgrow="ALWAYS"
                    prefWidth="800"/>
             <Button text="Publish" onAction="#publish"/>
         </HBox>

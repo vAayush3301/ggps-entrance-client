@@ -8,12 +8,12 @@
 <BorderPane stylesheets="@../styles/dashboard_style.css" xmlns="http://javafx.com/javafx/17.0.12"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="av.entrance.client.controller.user.DashboardController">
     <top>
-        <HBox spacing="16" alignment="CENTER_RIGHT">
+        <HBox spacing="16" alignment="CENTER">
             <padding>
                 <Insets top="20" right="40" bottom="20" left="40"/>
             </padding>
             <Label text="Active Tests" prefWidth="240" style="-fx-font-size: 24px; -fx-font-weight: bold;" HBox.hgrow="ALWAYS"/>
-            <Button text="Logout" style="-fx-background-color: #bb2121;" fx:id="logout" onAction="#logout"/>
+            <Button text="Logout" style="-fx-background-color: #bb2121;" fx:id="logout" onAction="#logout" HBox.hgrow="ALWAYS"/>
         </HBox>
     </top>
     <center>

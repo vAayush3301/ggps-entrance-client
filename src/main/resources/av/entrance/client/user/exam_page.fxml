@@ -9,17 +9,17 @@
             fx:controller="av.entrance.client.controller.user.ExamController">
 
     <top>
-        <HBox spacing="16" alignment="TOP_CENTER">
+        <HBox spacing="16" alignment="CENTER">
             <padding>
                 <Insets top="20" right="40" bottom="20" left="40"/>
             </padding>
             <Label text="Blank Test" fx:id="testName" style="-fx-font-weight: bold; -fx-font-size: 24px;"
                    alignment="CENTER"
-                   minWidth="800"/>
+                   minWidth="800" HBox.hgrow="ALWAYS"/>
             <Label text="Time: 00:00:00" prefWidth="200" fx:id="timer" style="-fx-font-size: 18px;"
-                   textAlignment="CENTER"/>
-            <Button text="Save" fx:id="saveBtn" onAction="#saveTest"/>
-            <Button text="Submit" onAction="#submit" alignment="CENTER_RIGHT"/>
+                   textAlignment="CENTER" HBox.hgrow="ALWAYS"/>
+            <Button text="Save" fx:id="saveBtn" onAction="#saveTest" HBox.hgrow="ALWAYS"/>
+            <Button text="Submit" onAction="#submit" alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS"/>
         </HBox>
     </top>
 
