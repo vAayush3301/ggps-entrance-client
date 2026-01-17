@@ -1,5 +1,6 @@
 package av.entrance.client.controller;
 
+import av.entrance.client.controller.user.DashboardController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -44,6 +45,9 @@ public class LoginController {
         } else {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/av/entrance/client/user/dashboard.fxml"));
             Parent root = loader.load();
+
+            DashboardController userDashboard = loader.getController();
+            userDashboard.userID = user;
 
             responseLabel.setText("User Logged In");
 

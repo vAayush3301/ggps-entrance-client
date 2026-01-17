@@ -48,7 +48,7 @@ public class DashboardController {
                         HBox root = loader.load();
 
                         TestRowController controller = loader.getController();
-                        controller.setData(test);
+                        controller.setTest(test);
 
                         createdTests.prefWidthProperty().bind(root.widthProperty());
 

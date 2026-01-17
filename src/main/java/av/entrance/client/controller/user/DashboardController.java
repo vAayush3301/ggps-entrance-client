@@ -16,12 +16,13 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.List;
 
 public class DashboardController {
     @FXML public ListView availableTest;
     @FXML
     Button logout;
+
+    public static String userID;
 
     @FXML
     private void logout() throws IOException {
@@ -60,7 +61,8 @@ public class DashboardController {
                         HBox root = loader.load();
 
                         TestRowController controller = loader.getController();
-                        controller.setData(test);
+                        controller.setTest(test);
+                        controller.setIndex(availableTest.getItems().indexOf(test));
 
                         availableTest.prefWidthProperty().bind(root.widthProperty());
 

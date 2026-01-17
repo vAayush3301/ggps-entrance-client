@@ -3,7 +3,6 @@ package av.entrance.client.controller.user;
 import av.entrance.client.model.Question;
 import av.entrance.client.model.Response;
 import av.entrance.client.model.Test;
-import av.entrance.client.service.DownloadTestService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -11,31 +10,26 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ExamController {
+    private final HashMap<Integer, Response> responses = new HashMap<>();
     public Label testName;
-    private List<Question> questions = new ArrayList<>();
-    private final List<Response> responses = new ArrayList<>();
     public RadioButton o1, o2, o3, o4;
     public Label questionCount;
     public Label questionText;
     public Label questionResponse;
+    private List<Question> questions = new ArrayList<>();
     private ToggleGroup optionGroup;
     private int currentCount = 1;
 
+    private Test test;
+    private String userID;
+
     @FXML
     public void initialize() {
-        DownloadTestService downloadTest = new DownloadTestService();
-        downloadTest.setOnSucceeded(event -> {
-            List<Test> tests = downloadTest.getValue();
-            testName.setText(tests.get(0).getTestName());
-
-            questions = tests.get(0).getQuestions();
-            loadQuestion(currentCount);
-        });
-
-        downloadTest.start();
+        userID = DashboardController.userID;
 
         optionGroup = new ToggleGroup();
 
@@ -45,6 +39,14 @@ public class ExamController {
         o4.setToggleGroup(optionGroup);
 
         questionCount.setText(currentCount + ".");
+    }
+
+    public void setTest(Test test) {
+        this.test = test;
+
+        testName.setText(test.getTestName());
+        questions = test.getQuestions();
+        loadQuestion(currentCount);
     }
 
     public void submit() {
@@ -59,7 +61,7 @@ public class ExamController {
         saveResponse(currentCount);
         currentCount--;
         loadQuestion(currentCount);
-        clearSelection();
+        loadResponse(currentCount);
     }
 
     public void handleNext() {
@@ -71,7 +73,19 @@ public class ExamController {
         saveResponse(currentCount);
         currentCount++;
         loadQuestion(currentCount);
-        clearSelection();
+        loadResponse(currentCount);
+    }
+
+    private void loadResponse(int currentCount) {
+        if (currentCount > responses.size()) {
+            clearSelection();
+            return;
+        }
+        Response response = responses.get(currentCount - 1);
+        int selected = response.getResponseCode();
+
+        Toggle selectedToggle = optionGroup.getToggles().get(selected - 1);
+        optionGroup.selectToggle(selectedToggle);
     }
 
     private void loadQuestion(int key) {
@@ -105,8 +119,8 @@ public class ExamController {
 
         RadioButton optionButton = (RadioButton) selected;
 
-        Response response = new Response(questions.get(key), getOptionCode(questions.get(key), optionButton));
-        responses.add(response);
+        Response response = new Response(questions.get(key - 1), getOptionCode(questions.get(key - 1), optionButton));
+        responses.put(key - 1, response);
     }
 
     private int getOptionCode(Question question, RadioButton optionButton) {
@@ -116,15 +130,10 @@ public class ExamController {
         String o4 = question.getOption4();
 
         String text = optionButton.getText();
-        if (text.equals(o1)) {
-            return 1;
-        } else if (text.equals(o2)) {
-            return 2;
-        } else if (text.equals(o3)) {
-            return 3;
-        } else if (text.equals(o4)) {
-            return 4;
-        }
+        if (text.equals(o1)) return 1;
+        else if (text.equals(o2)) return 2;
+        else if (text.equals(o3)) return 3;
+        else if (text.equals(o4)) return 4;
 
         return 0;
     }
