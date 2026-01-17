@@ -17,6 +17,9 @@ public class Question {
         this.correctOption = correctOption;
     }
 
+    public Question() {
+    }
+
     public String getQuestionText() {
         return questionText;
     }
