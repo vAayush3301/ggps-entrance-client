@@ -1,0 +1,53 @@
+@font-face {
+    font-family: "Open Sans";
+    src: url("fonts/open_sans_variable.ttf");
+}
+.root {
+    -fx-font-family: "Open Sans";
+    -fx-background-color: #FFFFFF;
+}
+.button {
+    -fx-background-color: #4f46e5;
+    -fx-text-fill: white;
+    -fx-background-radius: 10;
+    -fx-padding: 8 28;
+}
+.button:hover {
+    -fx-background-color: #4338ca;
+}
+.question-btn, .qNoBox {
+    -fx-padding: 6 12;
+    -fx-background-color: #29941e;
+    -fx-pref-width: 120;
+}
+.option {
+    -fx-border-color: #999;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 10;
+}
+.option:selected  {
+    -fx-background-color: #c9c9c9;
+    -fx-border-color: #3f51b5;
+    -fx-border-width: 2;
+    -fx-border-radius: 6;
+}
+.option:selected:hover  {
+    -fx-background-color: #c5cae9;
+}
+.option:hover  {
+    -fx-background-color: #c5dbe9;
+}
+.option .radio {
+    -fx-min-width: 0;
+    -fx-pref-width: 0;
+    -fx-max-width: 0;
+    -fx-min-height: 0;
+    -fx-pref-height: 0;
+    -fx-max-height: 0;
+}
+
+.option .dot {
+    -fx-background-color: transparent;
+}

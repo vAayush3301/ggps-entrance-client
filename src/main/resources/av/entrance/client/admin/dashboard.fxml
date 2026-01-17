@@ -23,7 +23,7 @@
                 <Insets top="10" right="40" bottom="30" left="40"/>
             </padding>
             <Separator prefHeight="1.0" maxWidth="Infinity"/>
-            <ListView prefHeight="300.0" maxWidth="Infinity"/>
+            <ListView prefHeight="300.0" maxWidth="Infinity" fx:id="createdTests"/>
         </VBox>
     </center>
 </BorderPane>

@@ -1,6 +1,7 @@
 package av.entrance.client.controller.user.items;
 
 import av.entrance.client.model.Test;
+import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
@@ -15,5 +16,8 @@ public class TestRowController {
 
     public void setData(Test test) {
         testName.setText(test.getTestName());
+    }
+
+    public void delete() {
     }
 }
