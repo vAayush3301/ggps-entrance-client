@@ -18,11 +18,11 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class DashboardController {
-    @FXML public ListView availableTest;
+    public static String userID;
+    @FXML
+    public ListView availableTest;
     @FXML
     Button logout;
-
-    public static String userID;
 
     @FXML
     private void logout() throws IOException {

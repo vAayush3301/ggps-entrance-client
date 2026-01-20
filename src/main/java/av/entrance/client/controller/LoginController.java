@@ -54,6 +54,7 @@ public class LoginController {
             Stage stage = (Stage) useridField.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("User Dashboard");
+            stage.setResizable(true);
             stage.show();
         }
     }

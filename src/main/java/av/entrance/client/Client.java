@@ -18,8 +18,8 @@ public class Client extends Application {
         stage.setTitle("Entrance Exam - Guru Gobind Singh Public School - Dhanbad");
         stage.setScene(scene);
 
-//        stage.setResizable(false);
-//        stage.sizeToScene();
+        stage.setResizable(true);
+        stage.sizeToScene();
         stage.show();
     }
 }

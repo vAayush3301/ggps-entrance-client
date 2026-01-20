@@ -59,4 +59,8 @@ public class TestRowController {
     @FXML
     public void initialize() {
     }
+
+    public void host() {
+
+    }
 }
