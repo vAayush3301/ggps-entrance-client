@@ -49,6 +49,7 @@ public class DashboardController {
 
                         TestRowController controller = loader.getController();
                         controller.setTest(test);
+                        controller.setIndex(createdTests.getItems().indexOf(test));
 
                         createdTests.prefWidthProperty().bind(root.widthProperty());
 

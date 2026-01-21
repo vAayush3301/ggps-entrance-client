@@ -16,7 +16,7 @@
     <Label fx:id="sNo" text="1." prefWidth="40"/>
     <Label fx:id="testName" text="Test Name" prefWidth="240"/>
     <Label fx:id="duration" prefWidth="140" text="1 Hour" textAlignment="CENTER"/>
-    <Button fx:id="hostTest" text="Host" onAction="#host"/>
+    <Button fx:id="hostTest" text="Host" onAction="#host_and_end"/>
     <Button fx:id="deleteTest" text="Delete" onAction="#delete"/>
 
 </HBox>

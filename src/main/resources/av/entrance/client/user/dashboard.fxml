@@ -2,9 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 <BorderPane stylesheets="@../styles/dashboard_style.css" xmlns="http://javafx.com/javafx/17.0.12"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="av.entrance.client.controller.user.DashboardController">
     <top>
@@ -12,8 +10,12 @@
             <padding>
                 <Insets top="20" right="40" bottom="20" left="40"/>
             </padding>
-            <Label text="Active Tests" prefWidth="240" style="-fx-font-size: 24px; -fx-font-weight: bold;" HBox.hgrow="ALWAYS"/>
-            <Button text="Logout" style="-fx-background-color: #bb2121;" fx:id="logout" onAction="#logout" HBox.hgrow="ALWAYS"/>
+            <Label wrapText="true" text="Connect Test" prefWidth="240"
+                   style="-fx-font-size: 26px; -fx-font-weight: bold;"
+                   HBox.hgrow="ALWAYS"/>
+            <Button wrapText="true" text="Logout" style="-fx-background-color: #bb2121;" fx:id="logout"
+                    onAction="#logout"
+                    HBox.hgrow="ALWAYS"/>
         </HBox>
     </top>
     <center>
@@ -22,8 +24,32 @@
                 <Insets top="10" right="40" bottom="30" left="40"/>
             </padding>
             <Separator prefHeight="1.0" maxWidth="Infinity"/>
-            <Label text="Available Tests" prefWidth="240"/>
-            <ListView prefHeight="300.0" maxWidth="Infinity" fx:id="availableTest"/>
+            <VBox alignment="CENTER" spacing="24">
+                <padding>
+                    <Insets top="30" right="40" bottom="30" left="40"/>
+                </padding>
+
+
+                <VBox alignment="CENTER" spacing="22" prefWidth="360" minWidth="360" maxWidth="400"
+                      styleClass="form-card">
+                    <GridPane hgap="16" vgap="14">
+                        <Label text="Test IP address:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                        <TextField fx:id="testIpField" prefWidth="200" promptText="Enter Test IP" GridPane.rowIndex="0"
+                                   alignment="CENTER"
+                                   GridPane.columnIndex="1"/>
+
+                        <Label text="Test Port:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                        <TextField fx:id="testPortField" prefWidth="200" promptText="Enter Test Port" alignment="CENTER"
+                                   GridPane.rowIndex="1"
+                                   GridPane.columnIndex="1"/>
+                    </GridPane>
+                </VBox>
+
+                <Button text="Attempt Test" wrapText="true" prefWidth="180" onAction="#attemptTest"
+                        textAlignment="CENTER"/>
+
+                <Label alignment="CENTER" fx:id="responseLabel" wrapText="true"/>
+            </VBox>
         </VBox>
     </center>
 </BorderPane>

@@ -2,6 +2,7 @@ package av.entrance.client.controller.user.items;
 
 import av.entrance.client.controller.user.ExamController;
 import av.entrance.client.model.Test;
+import av.entrance.client.server.Server;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -19,6 +20,8 @@ public class TestRowController {
     public Label duration;
 
     private Test test;
+
+    private Server server;
 
     public void attempt() {
         try {
@@ -56,11 +59,14 @@ public class TestRowController {
     public void delete() {
     }
 
-    @FXML
-    public void initialize() {
-    }
-
-    public void host() {
-
+    public void host_and_end() throws IOException {
+        if (server == null) {
+            server = new Server(5440, test);
+            server.start();
+            System.out.println("Server started...");
+        } else {
+            server.stop();
+            System.out.println("Server stopped...");
+        }
     }
 }

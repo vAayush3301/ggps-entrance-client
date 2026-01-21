@@ -24,13 +24,10 @@ public class ExamController {
     private ToggleGroup optionGroup;
     private int currentCount = 1;
 
-    private Test test;
     private String userID;
 
     @FXML
     public void initialize() {
-        userID = DashboardController.userID;
-
         optionGroup = new ToggleGroup();
 
         o1.setToggleGroup(optionGroup);
@@ -42,7 +39,6 @@ public class ExamController {
     }
 
     public void setTest(Test test) {
-        this.test = test;
 
         testName.setText(test.getTestName());
         questions = test.getQuestions();
@@ -143,5 +139,9 @@ public class ExamController {
 
     public void clearSelection() {
         optionGroup.selectToggle(null);
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 }

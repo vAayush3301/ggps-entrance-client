@@ -1,26 +1,29 @@
 package av.entrance.client.controller.user;
 
-import av.entrance.client.controller.user.items.TestRowController;
 import av.entrance.client.model.Test;
-import av.entrance.client.service.DownloadTestService;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import av.entrance.client.server.Payload;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.layout.HBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class DashboardController {
-    public static String userID;
-    @FXML
-    public ListView availableTest;
+    private static final ObjectMapper mapper = new ObjectMapper();
+    public String userID;
+    public Label responseLabel;
+    public TextField testIpField;
+    public TextField testPortField;
     @FXML
     Button logout;
 
@@ -37,41 +40,45 @@ public class DashboardController {
 
     @FXML
     public void initialize() {
-        DownloadTestService downloadTest = new DownloadTestService();
 
-        downloadTest.setOnSucceeded(event -> {
-            ObservableList<Test> tests = FXCollections.observableArrayList(downloadTest.getValue());
+    }
 
-            availableTest.setItems(tests);
-        });
+    public void attemptTest() throws IOException {
+        String ip = testIpField.getText();
+        String port = testPortField.getText();
 
-        downloadTest.start();
+        URL url = new URL("http://%s:%s/api/getTest".formatted(ip, port));
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
-        availableTest.setCellFactory(listView -> new ListCell<Test>() {
-            @Override
-            protected void updateItem(Test test, boolean empty) {
-                super.updateItem(test, empty);
+        con.setRequestMethod("POST");
+        con.setRequestProperty("Content-Type", "application/json");
+        con.setDoOutput(true);
 
-                if (empty || test == null) {
-                    setText(null);
-                    setGraphic(null);
-                } else {
-                    try {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/av/entrance/client/user/items/test_row.fxml"));
-                        HBox root = loader.load();
+        InputStream inputStream = con.getInputStream();
+        Payload payload = mapper.readValue(inputStream, Payload.class);
 
-                        TestRowController controller = loader.getController();
-                        controller.setTest(test);
-                        controller.setIndex(availableTest.getItems().indexOf(test));
+        Test test = payload.getTest();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/av/entrance/client/user/exam_page.fxml"));
+            BorderPane root = loader.load();
 
-                        availableTest.prefWidthProperty().bind(root.widthProperty());
+            ExamController examController = loader.getController();
+            examController.setTest(test);
+            examController.setUserID(userID);
 
-                        setGraphic(root);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
+            Scene scene = new Scene(root);
+
+            Stage stage = (Stage) responseLabel.getScene().getWindow();
+
+            stage.setTitle(test.getTestName());
+            stage.setScene(scene);
+
+            stage.setFullScreen(true);
+            stage.setResizable(false);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
