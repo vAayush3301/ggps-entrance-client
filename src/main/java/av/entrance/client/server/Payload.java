@@ -25,4 +25,8 @@ public class Payload {
 
     public Payload() {
     }
+
+    public Test getTest() {
+        return test;
+    }
 }
