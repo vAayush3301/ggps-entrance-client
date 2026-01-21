@@ -53,7 +53,7 @@ public class Server {
 
     public void stop() {
         if (server != null) {
-            server.stop(20);
+            server.stop(2);
             serverStarted = false;
             System.out.println("Test ended");
         }
