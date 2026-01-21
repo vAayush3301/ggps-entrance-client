@@ -13,6 +13,8 @@ public class Server {
     private Test test;
     private HttpServer server;
 
+    private boolean serverStarted = false;
+
     public Server(int port, Test test) {
         this.port = port;
         this.test = test;
@@ -44,6 +46,7 @@ public class Server {
 
         server.setExecutor(null);
         server.start();
+        serverStarted = true;
 
         System.out.println("Test hosted on port " + port);
     }
@@ -51,7 +54,12 @@ public class Server {
     public void stop() {
         if (server != null) {
             server.stop(20);
+            serverStarted = false;
             System.out.println("Test ended");
         }
+    }
+
+    public boolean isServerStarted() {
+        return serverStarted;
     }
 }
