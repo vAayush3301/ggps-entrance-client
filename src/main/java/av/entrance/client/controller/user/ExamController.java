@@ -3,28 +3,39 @@ package av.entrance.client.controller.user;
 import av.entrance.client.model.Question;
 import av.entrance.client.model.Response;
 import av.entrance.client.model.Test;
+import av.entrance.client.server.Payload;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.Toggle;
-import javafx.scene.control.ToggleGroup;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
 public class ExamController {
+    private static final ObjectMapper mapper = new ObjectMapper();
     private final HashMap<Integer, Response> responses = new HashMap<>();
     public Label testName;
     public RadioButton o1, o2, o3, o4;
     public Label questionCount;
     public Label questionText;
     public Label questionResponse;
+    public HBox qNoBox;
     private List<Question> questions = new ArrayList<>();
     private ToggleGroup optionGroup;
     private int currentCount = 1;
 
     private String userID;
+    private String testIp, testPort;
 
     @FXML
     public void initialize() {
@@ -39,13 +50,45 @@ public class ExamController {
     }
 
     public void setTest(Test test) {
-
         testName.setText(test.getTestName());
         questions = test.getQuestions();
+        Collections.shuffle(questions);
         loadQuestion(currentCount);
+
+        for (int qCount = 1; qCount <= questions.size(); qCount++) {
+            Button qButton = new Button(String.valueOf(qCount));
+            qButton.getStyleClass().add(".question-btn");
+            qButton.applyCss();
+            qButton.layout();
+            qNoBox.getChildren().add(qButton);
+            qButton.setOnAction(e -> {
+                int key = Integer.parseInt(qButton.getText());
+                loadQuestion(key);
+            });
+        }
     }
 
-    public void submit() {
+    public void submit() throws IOException {
+        saveResponse(currentCount);
+
+        URL url = new URL("http://%s:%s/api/submitResponse".formatted(testIp, testPort));
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+        con.setRequestMethod("POST");
+        con.setRequestProperty("Content-Type", "application/json");
+        con.setDoOutput(true);
+
+        Payload payload = new Payload(userID, new ArrayList<>(responses.values()), "RESPONSE");
+        mapper.writeValue(con.getOutputStream(), payload);
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/av/entrance/client/user/dashboard.fxml"));
+        Parent root = loader.load();
+
+        Stage stage = (Stage) qNoBox.getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.setTitle("User Dashboard");
+        stage.setResizable(true);
+        stage.show();
     }
 
     public void handlePrevious() {
@@ -134,14 +177,19 @@ public class ExamController {
         return 0;
     }
 
-    public void saveTest() {
-    }
-
     public void clearSelection() {
         optionGroup.selectToggle(null);
     }
 
     public void setUserID(String userID) {
         this.userID = userID;
+    }
+
+    public void setTestIp(String testIp) {
+        this.testIp = testIp;
+    }
+
+    public void setTestPort(String testPort) {
+        this.testPort = testPort;
     }
 }

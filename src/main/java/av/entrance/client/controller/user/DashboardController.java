@@ -65,6 +65,8 @@ public class DashboardController {
             ExamController examController = loader.getController();
             examController.setTest(test);
             examController.setUserID(userID);
+            examController.setTestIp(ip);
+            examController.setTestPort(port);
 
             Scene scene = new Scene(root);
 
