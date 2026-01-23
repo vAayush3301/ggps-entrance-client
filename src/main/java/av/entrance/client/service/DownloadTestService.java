@@ -24,7 +24,7 @@ public class DownloadTestService extends Service<List<Test>> {
                     HttpClient client = HttpClient.newHttpClient();
 
                     HttpRequest request = HttpRequest.newBuilder()
-                            .uri(URI.create("https://ggps-entrance.onrender.com/api/test/get_tests"))
+                            .uri(URI.create("https://ggps-entrance-xpiz.onrender.com/api/test/get_tests"))
                             .timeout(Duration.ofSeconds(40))
                             .GET()
                             .build();

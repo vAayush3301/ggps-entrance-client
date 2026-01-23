@@ -1,6 +1,6 @@
 package av.entrance.client.service;
 
-import av.entrance.client.model.Test;
+import av.entrance.client.model.SubmitResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -10,11 +10,11 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class UploadTestService extends Service<String> {
-    private final Test test;
+public class SubmitResponseService extends Service<String> {
+    private SubmitResponse response;
 
-    public UploadTestService(Test test) {
-        this.test = test;
+    public SubmitResponseService(SubmitResponse response) {
+        this.response = response;
     }
 
     @Override
@@ -23,11 +23,11 @@ public class UploadTestService extends Service<String> {
             @Override
             protected String call() throws Exception {
                 ObjectMapper mapper = new ObjectMapper();
-                String jsonBody = mapper.writeValueAsString(test);
+                String jsonBody = mapper.writeValueAsString(response);
 
                 HttpClient client = HttpClient.newHttpClient();
                 HttpRequest request = HttpRequest.newBuilder()
-                        .uri(URI.create("https://ggps-entrance-xpiz.onrender.com/api/test/create"))
+                        .uri(URI.create("https://ggps-entrance.onrender-xpiz.com/api/test/submitResponse"))
                         .header("Content-Type", "application/json")
                         .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
                         .build();
