@@ -26,4 +26,12 @@ public class Payload {
     public Test getTest() {
         return test;
     }
+
+    public List<Response> getResponses() {
+        return responses;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
 }
