@@ -1,18 +1,12 @@
 package av.entrance.client.controller.user.items;
 
-import av.entrance.client.controller.user.ExamController;
 import av.entrance.client.model.Test;
 import av.entrance.client.server.Server;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.BindException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -32,6 +26,7 @@ public class TestRowController {
     public void setTest(Test test) {
         this.test = test;
         testName.setText(test.getTestName());
+        duration.setText(test.getDuration() + " Minute(s)");
     }
 
     public void setIndex(int index) {

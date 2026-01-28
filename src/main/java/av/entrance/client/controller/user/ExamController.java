@@ -5,6 +5,8 @@ import av.entrance.client.model.Response;
 import av.entrance.client.model.Test;
 import av.entrance.client.server.Payload;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -30,12 +33,16 @@ public class ExamController {
     public Label questionText;
     public Label questionResponse;
     public HBox qNoBox;
+    public Label timer;
     private List<Question> questions = new ArrayList<>();
     private ToggleGroup optionGroup;
     private int currentCount = 1;
 
     private String userID;
     private String testIp, testPort;
+
+    private int seconds;
+    private Timeline timeline;
 
     @FXML
     public void initialize() {
@@ -66,6 +73,30 @@ public class ExamController {
                 loadQuestion(key);
             });
         }
+
+        seconds = test.getDuration() * 60;
+
+        timeline = new Timeline(new KeyFrame(Duration.seconds(1), actionEvent -> {
+            seconds--;
+
+            int secondLeft = seconds % 60;
+            int minLeft = Math.floorDiv(seconds, 60) % 60;
+            int hourLeft = Math.floorDiv(seconds, 3600);
+
+            timer.setText(hourLeft + ":" + minLeft + ":" + secondLeft);
+
+            if (seconds <= 0) {
+                timeline.stop();
+                try {
+                    submit();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }));
+
+        timeline.setCycleCount(seconds);
+        timeline.play();
     }
 
     public void submit() throws IOException {

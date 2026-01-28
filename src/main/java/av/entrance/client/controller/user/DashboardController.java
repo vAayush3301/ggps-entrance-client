@@ -47,7 +47,7 @@ public class DashboardController {
 
     }
 
-    public void attemptTest() throws IOException {
+    public void attemptTest() {
         String ip = testIpField.getText();
         String port = testPortField.getText();
 

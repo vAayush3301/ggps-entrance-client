@@ -7,9 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
@@ -17,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 public class NewTestController {
     public Label questionResponse;
@@ -147,7 +146,30 @@ public class NewTestController {
     }
 
     public void publish() {
-        Test test = new Test(testName.getText(), questions);
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Host Test");
+        dialog.setHeaderText("Enter Port");
+        dialog.setContentText("Port:");
+
+        Optional<String> result = dialog.showAndWait();
+        String duration = "60";
+        if (result.isPresent()) {
+            duration = result.get();
+        }
+
+        Test test;
+        try {
+            test = new Test(testName.getText(), questions, Integer.parseInt(duration));
+        } catch (NumberFormatException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Time Not Specified");
+            alert.setContentText("Test Duration must be numeric.");
+
+            alert.showAndWait();
+
+            return;
+        }
 
         UploadTestService service = new UploadTestService(test);
         service.setOnSucceeded(e -> {
