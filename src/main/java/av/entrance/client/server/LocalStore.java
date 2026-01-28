@@ -10,13 +10,13 @@ import java.nio.file.StandardOpenOption;
 import java.util.List;
 
 public class LocalStore {
-    private static final Path FILE = Path.of("D:\\CPP\\Entrance\\Client\\src\\main\\resources\\av\\entrance\\client\\data\\submissions.jsonl");
+    private static final Path FILE = Path.of("av/entrance/client/data/submissions.jsonl");
     private static final ObjectMapper mapper = new ObjectMapper();
 
     static {
         try {
             Path parent = FILE.getParent();
-            if (parent != null) {  // Avoid NPE if no parent dir
+            if (parent != null) {
                 Files.createDirectories(parent);
             }
             if (!Files.exists(FILE)) {
