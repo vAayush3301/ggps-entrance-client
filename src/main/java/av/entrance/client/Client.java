@@ -3,6 +3,7 @@ package av.entrance.client;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class Client extends Application {
@@ -16,6 +17,11 @@ public class Client extends Application {
 
         stage.setTitle("Entrance Exam - Guru Gobind Singh Public School - Dhanbad");
         stage.setScene(scene);
+
+        stage.getIcons().clear();
+        stage.getIcons().add(
+                new Image(getClass().getResourceAsStream("/av/entrance/client/images/logos/logo.png"))
+        );
 
         stage.setResizable(false);
         stage.sizeToScene();
