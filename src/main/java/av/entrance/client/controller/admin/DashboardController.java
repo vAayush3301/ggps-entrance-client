@@ -61,7 +61,7 @@ public class DashboardController {
                     }
                 }
 
-                controller.setTest(test);
+                controller.setData(test, createdTests.getItems());
                 controller.setIndex(getIndex());
 
                 setGraphic(root);

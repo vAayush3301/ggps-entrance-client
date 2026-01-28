@@ -2,6 +2,8 @@ package av.entrance.client.controller.user.items;
 
 import av.entrance.client.model.Test;
 import av.entrance.client.server.Server;
+import av.entrance.client.service.DeleteTestService;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -23,8 +25,11 @@ public class TestRowController {
 
     private Server server;
 
-    public void setTest(Test test) {
+    private ObservableList<Test> backingList;
+
+    public void setData(Test test, ObservableList<Test> backingList) {
         this.test = test;
+        this.backingList = backingList;
         testName.setText(test.getTestName());
         duration.setText(test.getDuration() + " Minute(s)");
     }
@@ -34,6 +39,25 @@ public class TestRowController {
     }
 
     public void delete() {
+        DeleteTestService service = new DeleteTestService(test);
+        service.setOnSucceeded(e -> {
+            String response = service.getValue();
+            System.out.println("Server response: " + response);
+            backingList.remove(test);
+        });
+
+        service.setOnFailed(e -> {
+            Throwable ex = service.getException();
+            ex.printStackTrace();
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("Failed to delete Test.");
+
+            alert.showAndWait();
+        });
+
+        service.start();
     }
 
     public void host_and_end() throws Exception {
