@@ -16,6 +16,7 @@ public class Server {
     private final int port;
     private final Test test;
     private HttpServer server;
+    private boolean isStarted = false;
 
     public Server(int port, Test test) {
         this.port = port;
@@ -43,6 +44,7 @@ public class Server {
 
     public void start() throws IOException {
         server = HttpServer.create(new InetSocketAddress(port), 0);
+        isStarted = true;
 
         server.createContext("/api/getTest", exchange -> {
             if (!"POST".equalsIgnoreCase(exchange.getRequestMethod())) {
@@ -69,9 +71,14 @@ public class Server {
 
     public void stop() throws Exception {
         if (server != null) {
-            server.stop(2);
+            server.stop(1);
+            isStarted = false;
             forwardToHost();
             System.out.println("Test ended");
         }
+    }
+
+    public boolean isStarted() {
+        return isStarted;
     }
 }

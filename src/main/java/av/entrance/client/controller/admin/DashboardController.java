@@ -35,29 +35,36 @@ public class DashboardController {
         downloadTest.start();
 
         createdTests.setCellFactory(listView -> new ListCell<Test>() {
+
+            private FXMLLoader loader;
+            private HBox root;
+            private TestRowController controller;
+
             @Override
             protected void updateItem(Test test, boolean empty) {
                 super.updateItem(test, empty);
 
                 if (empty || test == null) {
-                    setText(null);
                     setGraphic(null);
-                } else {
+                    return;
+                }
+
+                if (loader == null) {
                     try {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/av/entrance/client/admin/items/test_row.fxml"));
-                        HBox root = loader.load();
-
-                        TestRowController controller = loader.getController();
-                        controller.setTest(test);
-                        controller.setIndex(createdTests.getItems().indexOf(test));
-
-                        createdTests.prefWidthProperty().bind(root.widthProperty());
-
-                        setGraphic(root);
+                        loader = new FXMLLoader(
+                                getClass().getResource("/av/entrance/client/admin/items/test_row.fxml")
+                        );
+                        root = loader.load();
+                        controller = loader.getController();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
+
+                controller.setTest(test);
+                controller.setIndex(getIndex());
+
+                setGraphic(root);
             }
         });
     }
@@ -70,6 +77,7 @@ public class DashboardController {
         Stage stage = (Stage) logout.getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.setTitle("Entrance Exam - Guru Gobind Singh Public School - Dhanbad");
+        stage.setResizable(false);
         stage.show();
     }
 
@@ -80,6 +88,7 @@ public class DashboardController {
         Stage stage = (Stage) logout.getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.setTitle("Entrance Exam - Guru Gobind Singh Public School - Dhanbad");
+        stage.setResizable(false);
         stage.show();
     }
 }
