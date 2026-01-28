@@ -59,7 +59,7 @@ public class TestRowController {
     public void delete() {
     }
 
-    public void host_and_end() throws IOException {
+    public void host_and_end() throws Exception {
         if (server == null) {
             server = new Server(5440, test);
             server.start();

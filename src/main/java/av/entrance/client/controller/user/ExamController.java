@@ -71,15 +71,29 @@ public class ExamController {
     public void submit() throws IOException {
         saveResponse(currentCount);
 
-        URL url = new URL("http://%s:%s/api/submitResponse".formatted(testIp, testPort));
+        URL url = new URL("http://%s:%s/ingest".formatted(testIp, testPort));
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
         con.setRequestMethod("POST");
         con.setRequestProperty("Content-Type", "application/json");
         con.setDoOutput(true);
 
-        Payload payload = new Payload(userID, new ArrayList<>(responses.values()), "RESPONSE");
+        Payload payload = new Payload(userID, new ArrayList<>(responses.values()));
         mapper.writeValue(con.getOutputStream(), payload);
+
+        con.getOutputStream().flush();
+        con.getOutputStream().close();
+
+        int code = con.getResponseCode();
+        System.out.println("HTTP CODE = " + code);
+
+        if (code != 200) {
+            System.out.println(new String(con.getErrorStream().readAllBytes()));
+            return;
+        }
+
+        System.out.println(new String(con.getInputStream().readAllBytes()));
+        con.disconnect();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/av/entrance/client/user/dashboard.fxml"));
         Parent root = loader.load();

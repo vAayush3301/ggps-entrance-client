@@ -1,21 +1,44 @@
 package av.entrance.client.server;
 
+import av.entrance.client.model.SubmitResponse;
 import av.entrance.client.model.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
+import java.net.URL;
+import java.util.List;
 
 public class Server {
     private static final ObjectMapper mapper = new ObjectMapper();
     private final int port;
-    private Test test;
+    private final Test test;
     private HttpServer server;
 
     public Server(int port, Test test) {
         this.port = port;
         this.test = test;
+    }
+
+    private static void forwardToHost() throws Exception {
+        List<SubmitResponse> responses = LocalStore.readAll();
+        if (responses.isEmpty()) return;
+
+        ObjectMapper mapper = new ObjectMapper();
+        URL url = new URL("https://ggps-entrance-xpiz.onrender.com/api/test/submitResponse");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+        conn.setRequestMethod("POST");
+        conn.setDoOutput(true);
+        conn.setRequestProperty("Content-Type", "application/json");
+
+        mapper.writeValue(conn.getOutputStream(), responses);
+
+        if (conn.getResponseCode() == 200) {
+            LocalStore.clear();
+        }
     }
 
     public void start() throws IOException {
@@ -27,7 +50,7 @@ public class Server {
                 return;
             }
 
-            Payload payload = new Payload(test, "TEST");
+            Payload payload = new Payload(test);
             byte[] data = mapper.writeValueAsBytes(payload);
 
             exchange.getResponseHeaders().add("Content-Type", "application/json");
@@ -36,11 +59,7 @@ public class Server {
             exchange.close();
         });
 
-        server.createContext("/api/submitResponse", exchange -> {
-            Payload response = mapper.readValue(exchange.getRequestBody(), Payload.class);
-            System.out.println("Received: " + response);
-            exchange.close();
-        });
+        server.createContext("/ingest", new IngestHandler(test));
 
         server.setExecutor(null);
         server.start();
@@ -48,9 +67,10 @@ public class Server {
         System.out.println("Test hosted on port " + port);
     }
 
-    public void stop() {
+    public void stop() throws Exception {
         if (server != null) {
             server.stop(2);
+            forwardToHost();
             System.out.println("Test ended");
         }
     }
