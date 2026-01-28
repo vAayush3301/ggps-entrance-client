@@ -7,10 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
@@ -87,7 +84,11 @@ public class DashboardController {
             examController.setTestIp(ip);
             examController.setTestPort(port);
 
-            Scene scene = new Scene(root);
+            ScrollPane scrollPane = new ScrollPane(root);
+            scrollPane.setFitToWidth(true);
+            scrollPane.setFitToHeight(true);
+
+            Scene scene = new Scene(scrollPane);
 
             Stage stage = (Stage) responseLabel.getScene().getWindow();
 

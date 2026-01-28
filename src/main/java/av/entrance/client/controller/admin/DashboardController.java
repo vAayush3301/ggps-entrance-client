@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
@@ -85,9 +86,15 @@ public class DashboardController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/av/entrance/client/admin/new_test.fxml"));
         Parent root = loader.load();
 
+        ScrollPane scrollPane = new ScrollPane(root);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+
+        Scene scene = new Scene(scrollPane);
+
         Stage stage = (Stage) logout.getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.setTitle("Entrance Exam - Guru Gobind Singh Public School - Dhanbad");
+        stage.setScene(scene);
+        stage.setTitle("Create Test - Entrance Exam - Guru Gobind Singh Public School - Dhanbad");
         stage.setResizable(false);
         stage.show();
     }
