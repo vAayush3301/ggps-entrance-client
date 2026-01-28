@@ -7,9 +7,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -47,17 +51,32 @@ public class DashboardController {
         String ip = testIpField.getText();
         String port = testPortField.getText();
 
-        URL url = new URL("http://%s:%s/api/getTest".formatted(ip, port));
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        HttpURLConnection con;
+        Test test;
+        try {
+            URL url = new URL("http://%s:%s/api/getTest".formatted(ip, port));
+            con = (HttpURLConnection) url.openConnection();
 
-        con.setRequestMethod("POST");
-        con.setRequestProperty("Content-Type", "application/json");
-        con.setDoOutput(true);
 
-        InputStream inputStream = con.getInputStream();
-        Payload payload = mapper.readValue(inputStream, Payload.class);
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Content-Type", "application/json");
+            con.setDoOutput(true);
 
-        Test test = payload.getTest();
+            InputStream inputStream = con.getInputStream();
+            Payload payload = mapper.readValue(inputStream, Payload.class);
+
+            test = payload.getTest();
+
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Connection Error");
+            alert.setContentText("Cannot connect to the test server. Verify IP address and port.");
+
+            alert.showAndWait();
+
+            return;
+        }
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/av/entrance/client/user/exam_page.fxml"));
             BorderPane root = loader.load();
@@ -76,8 +95,23 @@ public class DashboardController {
             stage.setScene(scene);
 
             stage.setFullScreen(true);
+            stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+
             stage.setResizable(false);
             stage.show();
+            stage.setFullScreenExitHint("");
+
+            stage.fullScreenProperty().addListener((obs, wasFullScreen, isFullScreen) -> {
+                if (!isFullScreen) {
+                    stage.setFullScreen(true);
+                }
+            });
+
+            scene.addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
+                if (keyEvent.getCode() == KeyCode.ESCAPE) {
+                    keyEvent.consume();
+                }
+            });
 
         } catch (IOException e) {
             e.printStackTrace();

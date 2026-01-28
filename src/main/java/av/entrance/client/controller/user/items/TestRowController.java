@@ -21,7 +21,6 @@ import java.util.Optional;
 public class TestRowController {
     public Label testName;
     public Label sNo;
-    public Button attemptTest;
     public Label duration;
     public Button hostTest, deleteTest;
     public Label details;
@@ -29,30 +28,6 @@ public class TestRowController {
     private Test test;
 
     private Server server;
-
-    public void attempt() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/av/entrance/client/user/exam_page.fxml"));
-            BorderPane root = loader.load();
-
-            ExamController examController = loader.getController();
-            examController.setTest(test);
-
-            Scene scene = new Scene(root);
-
-            Stage stage = (Stage) sNo.getScene().getWindow();
-
-            stage.setTitle(test.getTestName());
-            stage.setScene(scene);
-
-            stage.setFullScreen(true);
-            stage.setResizable(false);
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void setTest(Test test) {
         this.test = test;
