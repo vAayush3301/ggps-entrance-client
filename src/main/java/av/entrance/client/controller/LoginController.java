@@ -8,14 +8,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class LoginController {
     private static final String ADMIN_USERID = "admin0";
-    private static final String ADMIN_PWD = "test";
+    private static final String ADMIN_PWD = "null@00";
     @FXML private TextField useridField;
     @FXML private PasswordField passwordField;
     @FXML private Label responseLabel;
