@@ -21,20 +21,7 @@ public class LoginController {
     @FXML private Label responseLabel;
 
     @FXML
-    public void initialize() {
-        useridField.getScene().setOnKeyPressed(keyEvent -> {
-            if (keyEvent.getCode() == KeyCode.ENTER) {
-                try {
-                    handleLogin();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
-    }
-
-    @FXML
-    private void handleLogin() throws IOException {
+    public void handleLogin() throws IOException {
         String user = useridField.getText();
         String password = passwordField.getText();
 
