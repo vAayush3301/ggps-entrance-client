@@ -10,7 +10,8 @@ import java.nio.file.StandardOpenOption;
 import java.util.List;
 
 public class LocalStore {
-    private static final Path FILE = Path.of("av/entrance/client/data/submissions.jsonl");
+    public static String testName = "NO_TEST_NAME";
+    private static final Path FILE = Path.of("av/entrance/client/data/" + testName + ".jsonl");
     private static final ObjectMapper mapper = new ObjectMapper();
 
     static {

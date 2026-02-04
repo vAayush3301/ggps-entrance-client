@@ -13,10 +13,11 @@ import java.time.format.DateTimeFormatter;
 public class IngestHandler implements HttpHandler {
     private static final ObjectMapper mapper = new ObjectMapper();
 
-    private Test test;
+    private final Test test;
 
     public IngestHandler(Test test) {
         this.test = test;
+        LocalStore.testName = test.getTestName();
     }
 
     @Override

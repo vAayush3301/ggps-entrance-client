@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -18,6 +19,19 @@ public class LoginController {
     @FXML private TextField useridField;
     @FXML private PasswordField passwordField;
     @FXML private Label responseLabel;
+
+    @FXML
+    public void initialize() {
+        useridField.getScene().setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.ENTER) {
+                try {
+                    handleLogin();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+    }
 
     @FXML
     private void handleLogin() throws IOException {

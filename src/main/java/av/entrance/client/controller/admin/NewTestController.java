@@ -147,9 +147,9 @@ public class NewTestController {
 
     public void publish() {
         TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Host Test");
-        dialog.setHeaderText("Enter Port");
-        dialog.setContentText("Port:");
+        dialog.setTitle("Publish Test");
+        dialog.setHeaderText("Test Duration");
+        dialog.setContentText("Enter Test duration in minutes:");
 
         Optional<String> result = dialog.showAndWait();
         String duration = "60";
