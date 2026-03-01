@@ -18,6 +18,7 @@
     <Label fx:id="duration" prefWidth="140" text="1 Hour" textAlignment="CENTER"/>
     <Label fx:id="details" prefWidth="140" textAlignment="CENTER"/>
     <Button fx:id="hostTest" text="Host" onAction="#host_and_end"/>
-    <Button fx:id="deleteTest" text="Delete" onAction="#delete"/>
+    <Button fx:id="results" text="Results" onAction="#get_results"/>
+    <Button fx:id="deleteTest" text="Delete" onAction="#delete" style="-fx-background-color: #bb2121;"/>
 
 </HBox>
