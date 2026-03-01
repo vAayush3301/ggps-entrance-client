@@ -12,8 +12,18 @@ repositories {
 }
 
 java {
+    modularity.inferModulePath = true
+
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'av.entrance.client.Client'
+        )
     }
 }
 
@@ -48,12 +58,14 @@ tasks.withType(JavaCompile) {
 }
 
 tasks.named('jar') {
-    archiveBaseName.set('Client')
+    archiveBaseName.set('ExamDesk')
     archiveVersion.set(version)
     destinationDirectory.set(file("$buildDir/libs"))
 }
 
 task copyDependencies(type: Copy) {
-    from configurations.runtimeClasspath
+    from configurations.runtimeClasspath {
+        exclude group: 'org.openjfx'
+    }
     into "$buildDir/libs/dependencies"
 }

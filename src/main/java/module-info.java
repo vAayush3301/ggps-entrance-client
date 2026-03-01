@@ -1,11 +1,13 @@
-module ExamDesk.av {
-    requires com.fasterxml.jackson.databind;
-    requires java.net.http;
+module examdesk.av {
     requires javafx.base;
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.graphics;
+
+    requires java.net.http;
     requires jdk.httpserver;
-    requires org.apache.poi.ooxml;
+
+    requires com.fasterxml.jackson.databind;
     requires org.apache.poi.poi;
+    requires org.apache.poi.ooxml;
 }
