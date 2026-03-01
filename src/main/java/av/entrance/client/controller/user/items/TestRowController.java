@@ -10,14 +10,24 @@ import av.entrance.client.service.GetResultsService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.BindException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -164,7 +174,13 @@ public class TestRowController {
                 });
             });
 
+            Button export = new Button("Export to Excel");
+            export.setStyle("-fx-padding: 8; -fx-background-color: #1D6F42; -fx-text-fill: #ffffff");
+            export.setOnAction(e -> exportToExcel(table));
+            HBox.setMargin(export, new Insets(0, 0, 0, 20));
+
             topBar.getChildren().add(searchField);
+            topBar.getChildren().add(export);
 
             root.setTop(topBar);
 
@@ -194,16 +210,16 @@ public class TestRowController {
 
         TableColumn<UserResult, Integer> attemptedCol = new TableColumn<>("Attempted");
         attemptedCol.setCellValueFactory(new PropertyValueFactory<>("numAttempted"));
-        attemptedCol.setStyle("-fx-alignment: CENTER-RIGHT");
+        attemptedCol.setStyle("-fx-alignment: CENTER");
 
         TableColumn<UserResult, Integer> correctCol = new TableColumn<>("Correct");
         correctCol.setCellValueFactory(new PropertyValueFactory<>("numCorrect"));
-        correctCol.setStyle("-fx-alignment: CENTER-RIGHT");
+        correctCol.setStyle("-fx-alignment: CENTER");
 
         TableColumn<UserResult, Integer> obtainedCol = new TableColumn<>("Obtained");
         obtainedCol.setCellValueFactory(new PropertyValueFactory<>("marksObtained"));
         obtainedCol.setSortType(TableColumn.SortType.DESCENDING);
-        obtainedCol.setStyle("-fx-alignment: CENTER-RIGHT");
+        obtainedCol.setStyle("-fx-alignment: CENTER");
 
         resultTable.getColumns().addAll(userIdCol, attemptedCol, correctCol, obtainedCol);
         resultTable.getSortOrder().add(obtainedCol);
@@ -217,5 +233,44 @@ public class TestRowController {
         resultTable.setStyle("-fx-table-cell-border-color: transparent;");
 
         return resultTable;
+    }
+
+    private void exportToExcel(TableView<UserResult> table) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save Excel File");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"));
+
+        File file = fileChooser.showSaveDialog(table.getScene().getWindow());
+        if (file == null) return;
+
+        try (Workbook workbook = new XSSFWorkbook()) {
+            Sheet sheet = workbook.createSheet("Results of " + test.getTestName());
+
+            Row headerRow = sheet.createRow(0);
+            for (int i = 0; i < table.getColumns().size(); i++) {
+                Cell cell = headerRow.createCell(i);
+                cell.setCellValue(table.getColumns().get(i).getText());
+            }
+
+            for (int i = 0; i < table.getItems().size(); i++) {
+                Row row = sheet.createRow(i + 1);
+                UserResult result = table.getItems().get(i);
+
+                row.createCell(0).setCellValue(result.getUserId());
+                row.createCell(1).setCellValue(result.getNumAttempted());
+                row.createCell(2).setCellValue(result.getNumCorrect());
+                row.createCell(3).setCellValue(result.getMarksObtained());
+            }
+
+            for (int i = 0; i < table.getColumns().size(); i++) {
+                sheet.autoSizeColumn(i);
+            }
+
+            try (FileOutputStream outputStream = new FileOutputStream(file)) {
+                workbook.write(outputStream);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
