@@ -21,20 +21,20 @@ public class WaitingDialog {
     }
 
     public WaitingDialog(String message) throws IOException {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/av/entrance/client/prop/waiting_dialog.fxml"));
-            Parent root = loader.load();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/av/entrance/client/prop/waiting_dialog.fxml"));
+        Parent root = loader.load();
 
-            messageLabel = (Label) loader.getNamespace().get("messageLabel");
-            messageLabel.setText(message);
+        messageLabel = (Label) loader.getNamespace().get("messageLabel");
+        messageLabel.setText(message);
 
-            dialogStage = new Stage();
-            dialogStage.initModality(Modality.APPLICATION_MODAL);
-            dialogStage.setResizable(false);
-            dialogStage.setTitle("Please Wait");
-            dialogStage.setScene(new Scene(root));
-            dialogStage.getScene().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/av/entrance/client/styles/dialog.css")).toExternalForm());
+        dialogStage = new Stage();
+        dialogStage.initModality(Modality.APPLICATION_MODAL);
+        dialogStage.setResizable(false);
+        dialogStage.setTitle("Please Wait");
+        dialogStage.setScene(new Scene(root));
+        dialogStage.getScene().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/av/entrance/client/styles/dialog.css")).toExternalForm());
 
-            dialogStage.setOnCloseRequest(event -> event.consume());
+        dialogStage.setOnCloseRequest(event -> event.consume());
     }
 
     public <T> int runTask(Task<T> task) {

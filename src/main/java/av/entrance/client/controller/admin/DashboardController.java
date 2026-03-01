@@ -14,6 +14,8 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.SVGPath;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -21,7 +23,7 @@ import java.io.IOException;
 public class DashboardController {
     public ListView createdTests;
     @FXML
-    Button logout;
+    Button logout, refresh;
 
     @FXML
     public void initialize() {
@@ -34,6 +36,11 @@ public class DashboardController {
         });
 
         downloadTest.start();
+
+        SVGPath icon = new SVGPath();
+        icon.setContent("M19.146 4.854l-1.489 1.489A8 8 0 1 0 12 20a8.094 8.094 0 0 0 7.371-4.886 1 1 0 1 0-1.842-.779A6.071 6.071 0 0 1 12 18a6 6 0 1 1 4.243-10.243l-1.39 1.39a.5.5 0 0 0 .354.854H19.5A.5.5 0 0 0 20 9.5V5.207a.5.5 0 0 0-.854-.353z");
+        icon.setFill(Color.valueOf("#212120"));
+        refresh.setGraphic(icon);
 
         createdTests.setCellFactory(listView -> new ListCell<Test>() {
 
@@ -97,5 +104,17 @@ public class DashboardController {
         stage.setTitle("Create Test - Entrance Exam - Guru Gobind Singh Public School - Dhanbad");
         stage.setResizable(false);
         stage.show();
+    }
+
+    public void refresh() {
+        DownloadTestService downloadTest = new DownloadTestService();
+
+        downloadTest.setOnSucceeded(event -> {
+            ObservableList<Test> tests = FXCollections.observableArrayList(downloadTest.getValue());
+
+            createdTests.setItems(tests);
+        });
+
+        downloadTest.start();
     }
 }
