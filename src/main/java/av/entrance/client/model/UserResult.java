@@ -12,4 +12,20 @@ public class UserResult {
     public void setNumAttempted(int numAttempted) {
         this.numAttempted = numAttempted;
     }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public int getMarksObtained() {
+        return marksObtained;
+    }
+
+    public int getNumCorrect() {
+        return numCorrect;
+    }
+
+    public int getNumAttempted() {
+        return numAttempted;
+    }
 }

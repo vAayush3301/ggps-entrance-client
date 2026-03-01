@@ -2,21 +2,25 @@ package av.entrance.client.controller.user.items;
 
 import av.entrance.client.model.SubmitResponse;
 import av.entrance.client.model.Test;
+import av.entrance.client.model.UserResult;
+import av.entrance.client.prop.ResultEvaluator;
 import av.entrance.client.server.Server;
 import av.entrance.client.service.DeleteTestService;
 import av.entrance.client.service.GetResultsService;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.WorkerStateEvent;
-import javafx.event.EventHandler;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextInputDialog;
+import javafx.collections.transformation.FilteredList;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.net.BindException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.util.List;
 import java.util.Optional;
 
 public class TestRowController {
@@ -131,11 +135,87 @@ public class TestRowController {
         GetResultsService resultsService = new GetResultsService(test.getTestId());
 
         resultsService.setOnSucceeded(workerStateEvent -> {
-            List<SubmitResponse> responses = resultsService.getValue();
+            ObservableList<SubmitResponse> responses = FXCollections.observableArrayList(resultsService.getValue());
 
-            System.out.println(responses);
+            ResultEvaluator evaluator = new ResultEvaluator(responses);
+            ObservableList<UserResult> userResults = FXCollections.observableArrayList(evaluator.getTotalResult());
+
+            TableView<UserResult> table = createTable(userResults);
+
+            BorderPane root = new BorderPane();
+            root.setCenter(table);
+
+            HBox topBar = new HBox(10);
+            topBar.setStyle("-fx-padding: 10;");
+
+            TextField searchField = new TextField();
+            searchField.setPromptText("Search...");
+
+            var masterData = table.getItems();
+            FilteredList<UserResult> filteredData = new FilteredList<>(masterData, p -> true);
+
+            searchField.textProperty().addListener((obs, oldVal, newVal) -> {
+                filteredData.setPredicate(userResult -> {
+                    if (newVal == null || newVal.isEmpty()) return true;
+
+                    String lower = newVal.toLowerCase();
+
+                    return userResult.getUserId().toLowerCase().contains(lower);
+                });
+            });
+
+            topBar.getChildren().add(searchField);
+
+            root.setTop(topBar);
+
+            Scene scene = new Scene(root, 700, 450);
+            scene.getStylesheets().add(getClass().getResource("/av/entrance/client/styles/table-style.css").toExternalForm());
+
+            Stage stage = new Stage();
+            stage.setTitle("Results");
+            stage.setScene(scene);
+
+            stage.initModality(Modality.NONE);
+            stage.show();
+            stage.centerOnScreen();
+
+            System.out.println(userResults);
         });
 
         resultsService.start();
+    }
+
+    private TableView<UserResult> createTable(ObservableList<UserResult> userResults) {
+        TableView<UserResult> resultTable = new TableView<>(userResults);
+
+        TableColumn<UserResult, String> userIdCol = new TableColumn<>("User ID");
+        userIdCol.setCellValueFactory(new PropertyValueFactory<>("userId"));
+        userIdCol.setStyle("-fx-alignment: CENTER");
+
+        TableColumn<UserResult, Integer> attemptedCol = new TableColumn<>("Attempted");
+        attemptedCol.setCellValueFactory(new PropertyValueFactory<>("numAttempted"));
+        attemptedCol.setStyle("-fx-alignment: CENTER-RIGHT");
+
+        TableColumn<UserResult, Integer> correctCol = new TableColumn<>("Correct");
+        correctCol.setCellValueFactory(new PropertyValueFactory<>("numCorrect"));
+        correctCol.setStyle("-fx-alignment: CENTER-RIGHT");
+
+        TableColumn<UserResult, Integer> obtainedCol = new TableColumn<>("Obtained");
+        obtainedCol.setCellValueFactory(new PropertyValueFactory<>("marksObtained"));
+        obtainedCol.setSortType(TableColumn.SortType.DESCENDING);
+        obtainedCol.setStyle("-fx-alignment: CENTER-RIGHT");
+
+        resultTable.getColumns().addAll(userIdCol, attemptedCol, correctCol, obtainedCol);
+        resultTable.getSortOrder().add(obtainedCol);
+
+        resultTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        resultTable.setTableMenuButtonVisible(false);
+        resultTable.setSelectionModel(resultTable.getSelectionModel());
+        resultTable.setPlaceholder(new Label("No Data Available"));
+        resultTable.setEditable(false);
+
+        resultTable.setStyle("-fx-table-cell-border-color: transparent;");
+
+        return resultTable;
     }
 }

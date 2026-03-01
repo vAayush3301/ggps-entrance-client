@@ -21,7 +21,7 @@ public class ResultEvaluator {
         for (SubmitResponse response : responses) {
             if (response.userId == userId) {
                 List<Response> userResponses = response.responses;
-                result.setNumAttempted(responses.size());
+                result.setNumAttempted(userResponses.size());
 
                 for (Response qResponse : userResponses) {
                     if (String.valueOf(qResponse.getResponseCode()).equals(qResponse.getQuestion().getCorrectOption())) {
