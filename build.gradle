@@ -34,10 +34,10 @@ dependencies {
     implementation 'org.apache.poi:poi:5.4.0'
     implementation 'org.apache.poi:poi-ooxml:5.4.0'
 
-    implementation 'org.openjfx:javafx-base:win:21'
-    implementation 'org.openjfx:javafx-controls:win:21'
-    implementation 'org.openjfx:javafx-fxml:win:21'
-    implementation 'org.openjfx:javafx-graphics:win:21'
+    implementation 'org.openjfx:javafx-base:21.0.2:win'
+    implementation 'org.openjfx:javafx-controls:21.0.2:win'
+    implementation 'org.openjfx:javafx-fxml:21.0.2:win'
+    implementation 'org.openjfx:javafx-graphics:21.0.2:win'
 }
 
 tasks.withType(JavaCompile) {
