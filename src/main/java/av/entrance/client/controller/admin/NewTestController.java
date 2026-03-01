@@ -152,10 +152,10 @@ public class NewTestController {
         dialog.setContentText("Enter Test duration in minutes:");
 
         Optional<String> result = dialog.showAndWait();
-        String duration = "60";
+        String duration;
         if (result.isPresent()) {
             duration = result.get();
-        }
+        } else return;
 
         Test test;
         try {

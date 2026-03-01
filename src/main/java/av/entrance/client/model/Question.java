@@ -1,7 +1,5 @@
 package av.entrance.client.model;
 
-import java.io.Serializable;
-
 public class Question {
 
     private String questionText;

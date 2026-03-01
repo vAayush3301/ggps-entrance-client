@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -16,9 +15,12 @@ import java.io.IOException;
 public class LoginController {
     private static final String ADMIN_USERID = "admin0";
     private static final String ADMIN_PWD = "null@00";
-    @FXML private TextField useridField;
-    @FXML private PasswordField passwordField;
-    @FXML private Label responseLabel;
+    @FXML
+    private TextField useridField;
+    @FXML
+    private PasswordField passwordField;
+    @FXML
+    private Label responseLabel;
 
     @FXML
     public void handleLogin() throws IOException {
@@ -40,7 +42,7 @@ public class LoginController {
             stage.setScene(new Scene(root));
             stage.setTitle("Admin Dashboard");
             stage.show();
-        } else if (!password.isEmpty()){
+        } else if (!password.isEmpty()) {
             responseLabel.setText("Invalid Password");
         } else {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/av/entrance/client/user/dashboard.fxml"));
