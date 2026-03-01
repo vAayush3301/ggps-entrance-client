@@ -50,6 +50,7 @@ public class WaitingDialog {
         });
         new Thread(task).start();
         dialogStage.showAndWait();
+        dialogStage.centerOnScreen();
 
         return responseCode[0];
     }

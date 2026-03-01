@@ -37,11 +37,7 @@ public class DashboardController {
         stage.setScene(new Scene(root));
         stage.setTitle("Entrance Exam - Guru Gobind Singh Public School - Dhanbad");
         stage.show();
-    }
-
-    @FXML
-    public void initialize() {
-
+        stage.centerOnScreen();
     }
 
     public void attemptTest() {

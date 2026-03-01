@@ -42,6 +42,7 @@ public class LoginController {
             stage.setScene(new Scene(root));
             stage.setTitle("Admin Dashboard");
             stage.show();
+            stage.centerOnScreen();
         } else if (!password.isEmpty()) {
             responseLabel.setText("Invalid Password");
         } else {
@@ -58,6 +59,7 @@ public class LoginController {
             stage.setTitle("User Dashboard");
             stage.setResizable(true);
             stage.show();
+            stage.centerOnScreen();
         }
     }
 

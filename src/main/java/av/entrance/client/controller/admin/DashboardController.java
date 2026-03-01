@@ -87,6 +87,7 @@ public class DashboardController {
         stage.setTitle("Entrance Exam - Guru Gobind Singh Public School - Dhanbad");
         stage.setResizable(false);
         stage.show();
+        stage.centerOnScreen();
     }
 
     public void createTest() throws IOException {
@@ -104,6 +105,7 @@ public class DashboardController {
         stage.setTitle("Create Test - Entrance Exam - Guru Gobind Singh Public School - Dhanbad");
         stage.setResizable(false);
         stage.show();
+        stage.centerOnScreen();
     }
 
     public void refresh() {

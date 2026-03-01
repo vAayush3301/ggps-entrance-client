@@ -44,5 +44,6 @@ public class Client extends Application {
         stage.setResizable(false);
         stage.sizeToScene();
         stage.show();
+        stage.centerOnScreen();
     }
 }

@@ -3,6 +3,8 @@ package av.entrance.client.controller.admin;
 import av.entrance.client.model.Question;
 import av.entrance.client.model.Test;
 import av.entrance.client.service.UploadTestService;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -143,6 +145,7 @@ public class NewTestController {
         stage.setScene(new Scene(root));
         stage.setTitle("Admin Dashboard");
         stage.show();
+        stage.centerOnScreen();
     }
 
     public void publish() {
@@ -175,6 +178,36 @@ public class NewTestController {
         service.setOnSucceeded(e -> {
             String response = service.getValue();
             System.out.println("Server response: " + response);
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Success");
+            alert.setHeaderText("Test has been created");
+            alert.setContentText("You will be redirected to Home Page.");
+
+            ButtonType okType = new ButtonType("OK");
+            alert.getButtonTypes().setAll(okType);
+
+            Button okButton = (Button) alert.getDialogPane().lookupButton(okType);
+            okButton.setOnAction(new EventHandler<>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/av/entrance/client/admin/dashboard.fxml"));
+                    Parent root;
+                    try {
+                        root = loader.load();
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+
+                    Stage stage = (Stage) questionResponse.getScene().getWindow();
+                    stage.setScene(new Scene(root));
+                    stage.setTitle("Admin Dashboard");
+                    stage.show();
+                    stage.centerOnScreen();
+                }
+            });
+
+            alert.showAndWait();
 
             questionResponse.setText("Test Published");
         });
