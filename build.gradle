@@ -50,13 +50,6 @@ dependencies {
     implementation 'org.openjfx:javafx-graphics:21.0.2:win'
 }
 
-tasks.withType(JavaCompile) {
-    options.compilerArgs += [
-            '--add-exports', 'jdk.httpserver/com.sun.net.httpserver=examdesk.av',
-            '--add-exports', 'java.net.http/java.net.http=examdesk.av'
-    ]
-}
-
 tasks.named('jar') {
     archiveBaseName.set('ExamDesk')
     archiveVersion.set(version)
