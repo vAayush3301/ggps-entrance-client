@@ -3,10 +3,12 @@ package av.entrance.client.controller.user;
 import av.entrance.client.model.Question;
 import av.entrance.client.model.Response;
 import av.entrance.client.model.Test;
+import av.entrance.client.prop.WaitingDialog;
 import av.entrance.client.server.Payload;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -102,6 +104,9 @@ public class ExamController {
     public void submit() throws IOException {
         saveResponse(currentCount);
 
+        WaitingDialog waitingDialog = new WaitingDialog("Submitting your Response");
+
+
         URL url = new URL("http://%s:%s/ingest".formatted(testIp, testPort));
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
@@ -109,8 +114,15 @@ public class ExamController {
         con.setRequestProperty("Content-Type", "application/json");
         con.setDoOutput(true);
 
-        Payload payload = new Payload(userID, new ArrayList<>(responses.values()));
-        mapper.writeValue(con.getOutputStream(), payload);
+        Task<Void> task = new Task<>() {
+            @Override
+            protected Void call() throws Exception {
+                Payload payload = new Payload(userID, new ArrayList<>(responses.values()));
+                mapper.writeValue(con.getOutputStream(), payload);
+                return null;
+            }
+        };
+        int response = waitingDialog.runTask(task);
 
         con.getOutputStream().flush();
         con.getOutputStream().close();
@@ -118,10 +130,22 @@ public class ExamController {
         int code = con.getResponseCode();
         System.out.println("HTTP CODE = " + code);
 
-        if (code != 200) {
+        if (response != 200) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Failed to submit your response.");
+            alert.setContentText("Please try again");
+            alert.showAndWait();
+
             System.out.println(new String(con.getErrorStream().readAllBytes()));
             return;
         }
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Success");
+        alert.setHeaderText("Your response has been submitted.");
+        alert.setContentText("You will be redirected to Home Page.");
+        alert.showAndWait();
 
         System.out.println(new String(con.getInputStream().readAllBytes()));
         con.disconnect();

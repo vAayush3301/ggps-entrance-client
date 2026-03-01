@@ -37,10 +37,20 @@ public class WaitingDialog {
             dialogStage.setOnCloseRequest(event -> event.consume());
     }
 
-    public <T> void runTask(Task<T> task) {
-        task.setOnSucceeded(e -> dialogStage.close());
-        task.setOnFailed(e -> dialogStage.close());
+    public <T> int runTask(Task<T> task) {
+        final int[] responseCode = new int[1];
+
+        task.setOnSucceeded(e -> {
+            responseCode[0] = 200;
+            dialogStage.close();
+        });
+        task.setOnFailed(e -> {
+            responseCode[0] = 500;
+            dialogStage.close();
+        });
         new Thread(task).start();
         dialogStage.showAndWait();
+
+        return responseCode[0];
     }
 }
