@@ -1,7 +1,6 @@
 plugins {
     id 'java'
     id 'application'
-    id 'org.openjfx.javafxplugin' version '0.1.0'
 }
 
 group = 'av.exam'
@@ -12,7 +11,7 @@ repositories {
 }
 
 java {
-    modularity.inferModulePath = true
+    modularity.inferModulePath = false
 
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
@@ -27,11 +26,6 @@ jar {
     }
 }
 
-javafx {
-    version = "21"
-    modules = [ 'javafx.controls', 'javafx.fxml' ]
-}
-
 application {
     mainClass = 'av.entrance.client.Client'
 }
@@ -44,6 +38,7 @@ dependencies {
     implementation 'org.apache.poi:poi:5.4.0'
     implementation 'org.apache.poi:poi-ooxml:5.4.0'
 
+    def javafxVersion = "21.0.2"
     implementation 'org.openjfx:javafx-base:21.0.2:win'
     implementation 'org.openjfx:javafx-controls:21.0.2:win'
     implementation 'org.openjfx:javafx-fxml:21.0.2:win'
@@ -57,8 +52,15 @@ tasks.named('jar') {
 }
 
 task copyDependencies(type: Copy) {
-    from configurations.runtimeClasspath {
-        exclude group: 'org.openjfx'
-    }
     into "$buildDir/libs/dependencies"
+}
+
+task prepareFolderForPackage(type: Copy) {
+    dependsOn jar
+
+    from jar.archiveFile
+
+    from configurations.runtimeClasspath
+
+    into "$buildDir/dist"
 }
