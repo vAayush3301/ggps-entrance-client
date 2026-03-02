@@ -14,6 +14,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
@@ -73,6 +74,9 @@ public class TestRowController {
             alert.setTitle("Error");
             alert.setContentText("Failed to delete Test.");
 
+            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/av/entrance/client/images/logos/logo.png")));
+
             alert.showAndWait();
         });
 
@@ -101,6 +105,9 @@ public class TestRowController {
                     alert.setHeaderText("Invalid Port");
                     alert.setContentText("Port must contain characters between 0-9.");
 
+                    Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+                    stage.getIcons().add(new Image(getClass().getResourceAsStream("/av/entrance/client/images/logos/logo.png")));
+
                     alert.showAndWait();
 
                     return;
@@ -109,6 +116,9 @@ public class TestRowController {
                     alert.setTitle("Error");
                     alert.setHeaderText("Port Already in use");
                     alert.setContentText("This port is already in use. Please try something different.");
+
+                    Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+                    stage.getIcons().add(new Image(getClass().getResourceAsStream("/av/entrance/client/images/logos/logo.png")));
 
                     alert.showAndWait();
 
@@ -190,6 +200,8 @@ public class TestRowController {
             Stage stage = new Stage();
             stage.setTitle("Results");
             stage.setScene(scene);
+
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/av/entrance/client/images/logos/logo.png")));
 
             stage.initModality(Modality.NONE);
             stage.show();

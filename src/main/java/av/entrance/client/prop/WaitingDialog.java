@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -33,6 +34,8 @@ public class WaitingDialog {
         dialogStage.setTitle("Please Wait");
         dialogStage.setScene(new Scene(root));
         dialogStage.getScene().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/av/entrance/client/styles/dialog.css")).toExternalForm());
+
+        dialogStage.getIcons().add(new Image(getClass().getResourceAsStream("/av/entrance/client/images/logos/logo.png")));
 
         dialogStage.setOnCloseRequest(event -> event.consume());
     }

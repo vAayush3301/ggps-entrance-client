@@ -8,10 +8,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -41,6 +43,38 @@ public class DashboardController {
         stage.centerOnScreen();
     }
 
+    private void showInstructions(Test test) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Exam Instructions");
+        alert.setHeaderText("Please read carefully");
+
+        String content = String.format("""
+                Exam Pattern:
+                • %d Questions (MCQs)
+                • +4 for correct, -1 for wrong
+                • No reattempt after submission
+                
+                Duration:
+                • %d minutes
+                • Timer will auto-submit when time ends
+                
+                Rules:
+                • Switching tabs or losing focus 3 times will auto-submit
+                • Minimizing the window counts as focus loss
+                • Do not refresh or close the application
+                
+                Click OK to begin.
+                """, test.getQuestions().size(), test.getDuration());
+
+        alert.setContentText(content);
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/av/entrance/client/images/logos/logo.png")));
+
+        alert.showAndWait();
+    }
+
     public void attemptTest() {
         String ip = testIpField.getText();
         String port = testPortField.getText();
@@ -51,7 +85,6 @@ public class DashboardController {
             URL url = new URL("http://%s:%s/api/getTest".formatted(ip, port));
             con = (HttpURLConnection) url.openConnection();
 
-
             con.setRequestMethod("POST");
             con.setRequestProperty("Content-Type", "application/json");
             con.setDoOutput(true);
@@ -60,18 +93,22 @@ public class DashboardController {
             Payload payload = mapper.readValue(inputStream, Payload.class);
 
             test = payload.getTest();
-
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Connection Error");
             alert.setContentText("Cannot connect to the test server. Verify IP address and port.");
 
+            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/av/entrance/client/images/logos/logo.png")));
+
             alert.showAndWait();
 
             return;
         }
         try {
+            showInstructions(test);
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/av/entrance/client/user/exam_page.fxml"));
             BorderPane root = loader.load();
 

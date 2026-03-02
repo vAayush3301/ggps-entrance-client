@@ -14,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -145,6 +146,10 @@ public class ExamController {
             alert.setTitle("Error");
             alert.setHeaderText("Failed to submit your response.");
             alert.setContentText("Please try again");
+
+            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/av/entrance/client/images/logos/logo.png")));
+
             alert.showAndWait();
 
             System.out.println(new String(con.getErrorStream().readAllBytes()));
@@ -155,6 +160,10 @@ public class ExamController {
         alert.setTitle("Success");
         alert.setHeaderText("Your response has been submitted.");
         alert.setContentText("You will be redirected to Home Page.");
+
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/av/entrance/client/images/logos/logo.png")));
+
         alert.showAndWait();
 
         System.out.println(new String(con.getInputStream().readAllBytes()));

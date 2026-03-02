@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
@@ -154,6 +155,9 @@ public class NewTestController {
         dialog.setHeaderText("Test Duration");
         dialog.setContentText("Enter Test duration in minutes:");
 
+        Stage dialogStage = (Stage) dialog.getDialogPane().getScene().getWindow();
+        dialogStage.getIcons().add(new Image(getClass().getResourceAsStream("/av/entrance/client/images/logos/logo.png")));
+
         Optional<String> result = dialog.showAndWait();
         String duration;
         if (result.isPresent()) {
@@ -169,6 +173,9 @@ public class NewTestController {
             alert.setHeaderText("Time Not Specified");
             alert.setContentText("Test Duration must be numeric.");
 
+            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/av/entrance/client/images/logos/logo.png")));
+
             alert.showAndWait();
 
             return;
@@ -183,6 +190,9 @@ public class NewTestController {
             alert.setTitle("Success");
             alert.setHeaderText("Test has been created");
             alert.setContentText("You will be redirected to Home Page.");
+
+            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/av/entrance/client/images/logos/logo.png")));
 
             ButtonType okType = new ButtonType("OK");
             alert.getButtonTypes().setAll(okType);
