@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class DashboardController {
     private static final ObjectMapper mapper = new ObjectMapper();
@@ -87,6 +88,37 @@ public class DashboardController {
             Scene scene = new Scene(scrollPane);
 
             Stage stage = (Stage) responseLabel.getScene().getWindow();
+            examController.setStage(stage);
+
+            AtomicInteger focusLostCount = new AtomicInteger(0);
+
+            stage.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
+                if (!t1 && stage.getScene() == scene) {
+                    focusLostCount.incrementAndGet();
+
+                    if (focusLostCount.intValue() >= 3) {
+                        try {
+                            examController.submit("You have been disqualified. Submitting your response.");
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+            });
+
+            stage.iconifiedProperty().addListener((observableValue, aBoolean, t1) -> {
+                if (!t1 && stage.getScene() == scene) {
+                    focusLostCount.incrementAndGet();
+
+                    if (focusLostCount.intValue() >= 3) {
+                        try {
+                            examController.submit("You have been disqualified. Submitting your response.");
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+            });
 
             stage.setTitle(test.getTestName());
             stage.setScene(scene);

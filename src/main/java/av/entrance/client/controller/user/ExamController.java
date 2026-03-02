@@ -46,6 +46,12 @@ public class ExamController {
     private int seconds;
     private Timeline timeline;
 
+    private Stage stage;
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
     @FXML
     public void initialize() {
         optionGroup = new ToggleGroup();
@@ -90,7 +96,7 @@ public class ExamController {
             if (seconds <= 0) {
                 timeline.stop();
                 try {
-                    submit();
+                    submit("Test duration has ended. Submitting your response...");
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -101,11 +107,15 @@ public class ExamController {
         timeline.play();
     }
 
-    public void submit() throws IOException {
+    public void submitBtn() throws IOException {
+        submit("Submitting your response...");
+    }
+
+    public void submit(String message) throws IOException {
         saveResponse(currentCount);
 
-        WaitingDialog waitingDialog = new WaitingDialog("Submitting your Response");
-
+        if (message.isEmpty()) message = "Submitting your response...";
+        WaitingDialog waitingDialog = new WaitingDialog(message);
 
         URL url = new URL("http://%s:%s/ingest".formatted(testIp, testPort));
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -153,7 +163,6 @@ public class ExamController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/av/entrance/client/user/dashboard.fxml"));
         Parent root = loader.load();
 
-        Stage stage = (Stage) qNoBox.getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.setTitle("User Dashboard");
         stage.setResizable(true);

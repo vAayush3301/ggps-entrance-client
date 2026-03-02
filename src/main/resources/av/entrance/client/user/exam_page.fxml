@@ -18,7 +18,7 @@
                    minWidth="800" HBox.hgrow="ALWAYS"/>
             <Label text="Time: 00:00:00" prefWidth="200" fx:id="timer" style="-fx-font-size: 18px;"
                    textAlignment="CENTER" HBox.hgrow="ALWAYS"/>
-            <Button text="Submit" onAction="#submit" alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS"/>
+            <Button text="Submit" onAction="#submitBtn" alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS"/>
         </HBox>
     </top>
 
