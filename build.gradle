@@ -21,13 +21,13 @@ java {
 jar {
     manifest {
         attributes(
-                'Main-Class': 'av.entrance.client.Client'
+                'Main-Class': 'av.entrance.client.Launcher'
         )
     }
 }
 
 application {
-    mainClass = 'av.entrance.client.Client'
+    mainClass = 'av.entrance.client.Launcher'
 }
 
 dependencies {
