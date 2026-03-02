@@ -12,12 +12,13 @@ import java.time.format.DateTimeFormatter;
 
 public class IngestHandler implements HttpHandler {
     private static final ObjectMapper mapper = new ObjectMapper();
+    private final LocalStore localStore;
 
     private final Test test;
 
     public IngestHandler(Test test) {
         this.test = test;
-        LocalStore.testName = test.getTestName();
+        localStore = new LocalStore(test.getTestName());
     }
 
     @Override
@@ -42,7 +43,7 @@ public class IngestHandler implements HttpHandler {
                     payload.getResponses()
             );
 
-            LocalStore.append(submitResponse);
+            localStore.append(submitResponse);
 
             byte[] response = "OK".getBytes();
 

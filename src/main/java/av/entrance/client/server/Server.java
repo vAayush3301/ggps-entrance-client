@@ -17,14 +17,17 @@ public class Server {
     private final Test test;
     private HttpServer server;
     private boolean isStarted = false;
+    private static LocalStore localStore;
 
     public Server(int port, Test test) {
         this.port = port;
         this.test = test;
+
+        localStore = new LocalStore(test.getTestName());
     }
 
     private static void forwardToHost() throws Exception {
-        List<SubmitResponse> responses = LocalStore.readAll();
+        List<SubmitResponse> responses = localStore.readAll();
         if (responses.isEmpty()) return;
 
         ObjectMapper mapper = new ObjectMapper();
@@ -38,7 +41,7 @@ public class Server {
         mapper.writeValue(conn.getOutputStream(), responses);
 
         if (conn.getResponseCode() == 200) {
-            LocalStore.clear();
+            localStore.clear();
         }
     }
 

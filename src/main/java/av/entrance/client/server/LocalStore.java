@@ -11,22 +11,15 @@ import java.nio.file.StandardOpenOption;
 import java.util.List;
 
 public class LocalStore {
-    public static String testName = "NO_TEST_NAME";
+    public String testName = "NO_TEST_NAME";
     private static final ObjectMapper mapper = new ObjectMapper();
 
-    private static final Path FILE = getStoragePath();
+    private final Path FILE;
 
-    private static Path getStoragePath() {
-        String appData = System.getenv("APPDATA");
+    public LocalStore(String testName) {
+        this.testName = testName;
+        FILE = getStoragePath();
 
-        if (appData == null) {
-            appData = System.getProperty("user.home");
-        }
-
-        return Paths.get(appData, "ExamDesk", "data", testName + ".jsonl");
-    }
-
-    static {
         try {
             Path parent = FILE.getParent();
             if (parent != null) {
@@ -40,7 +33,17 @@ public class LocalStore {
         }
     }
 
-    public static synchronized void append(SubmitResponse payload) throws IOException {
+    private Path getStoragePath() {
+        String appData = System.getenv("APPDATA");
+
+        if (appData == null) {
+            appData = System.getProperty("user.home");
+        }
+
+        return Paths.get(appData, "ExamDesk", "data", testName + ".jsonl");
+    }
+
+    public synchronized void append(SubmitResponse payload) throws IOException {
         Files.createDirectories(FILE.getParent());
         if (!Files.exists(FILE)) Files.createFile(FILE);
 
@@ -48,7 +51,7 @@ public class LocalStore {
         Files.writeString(FILE, json + "\n", StandardOpenOption.APPEND);
     }
 
-    public static List<SubmitResponse> readAll() throws IOException {
+    public List<SubmitResponse> readAll() throws IOException {
         if (!Files.exists(FILE)) return List.of();
 
         return Files.lines(FILE).filter(l -> !l.isBlank()).map(l -> {
@@ -60,7 +63,7 @@ public class LocalStore {
         }).toList();
     }
 
-    public static void clear() throws IOException {
+    public void clear() throws IOException {
         if (Files.exists(FILE)) {
             Files.writeString(FILE, "");
         }
