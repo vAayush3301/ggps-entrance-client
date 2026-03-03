@@ -10,13 +10,19 @@ import av.entrance.client.service.GetResultsService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.SVGPath;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -40,6 +46,8 @@ public class TestRowController {
     public Label duration;
     public Button hostTest, deleteTest;
     public Label details;
+    public Button results;
+    public Button editTestBtn;
 
     private Test test;
 
@@ -52,6 +60,98 @@ public class TestRowController {
         this.backingList = backingList;
         testName.setText(test.getTestName());
         duration.setText(test.getDuration() + " Minute(s)");
+
+        SVGPath editIcon, resultIcon, deleteIcon;
+        editIcon = new SVGPath();
+        resultIcon = new SVGPath();
+        deleteIcon = new SVGPath();
+
+        double iconSize = 24;
+
+        Color iconColor = Color.valueOf("#fffed6");
+        Group hostIcon = new Group();
+
+        SVGPath p1 = new SVGPath();
+        p1.setContent("M12 13v8 M9 21h6");
+        p1.setStroke(iconColor);
+        p1.setStrokeWidth(2);
+        p1.setFill(null);
+
+        SVGPath p2 = new SVGPath();
+        p2.setContent("M11.95 12L12.05 12");
+        p2.setStroke(iconColor);
+        p2.setStrokeWidth(2.5);
+        p2.setFill(null);
+
+        SVGPath p3 = new SVGPath();
+        p3.setContent("M5.64 18.36a9 9 0 1 1 12.72 0");
+        p3.setStroke(iconColor);
+        p3.setStrokeWidth(2);
+        p3.setFill(null);
+
+        SVGPath p4 = new SVGPath();
+        p4.setContent("M15.54 15.54a5 5 0 1 0 -7.08 0");
+        p4.setStroke(iconColor);
+        p4.setStrokeWidth(2);
+        p4.setFill(null);
+
+        hostIcon.getChildren().addAll(p1, p2, p3, p4);
+
+        editIcon.setContent("M20.8477 1.87868C19.6761 0.707109 17.7766 0.707105 16.605 1.87868L2.44744 16.0363C2.02864 16.4551 1.74317 16.9885 1.62702 17.5692L1.03995 20.5046C0.760062 21.904 1.9939 23.1379 3.39334 22.858L6.32868 22.2709C6.90945 22.1548 7.44285 21.8693 7.86165 21.4505L22.0192 7.29289C23.1908 6.12132 23.1908 4.22183 22.0192 3.05025L20.8477 1.87868ZM18.0192 3.29289C18.4098 2.90237 19.0429 2.90237 19.4335 3.29289L20.605 4.46447C20.9956 4.85499 20.9956 5.48815 20.605 5.87868L17.9334 8.55027L15.3477 5.96448L18.0192 3.29289ZM13.9334 7.3787L3.86165 17.4505C3.72205 17.5901 3.6269 17.7679 3.58818 17.9615L3.00111 20.8968L5.93645 20.3097C6.13004 20.271 6.30784 20.1759 6.44744 20.0363L16.5192 9.96448L13.9334 7.3787Z");
+        editIcon.setFill(iconColor);
+
+        deleteIcon.setContent("M0 281.296l0 -68.355q1.953 -37.107 29.295 -62.496t64.449 -25.389l93.744 0l0 -31.248q0 -39.06 27.342 -66.402t66.402 -27.342l312.48 0q39.06 0 66.402 27.342t27.342 66.402l0 31.248l93.744 0q37.107 0 64.449 25.389t29.295 62.496l0 68.355q0 25.389 -18.553 43.943t-43.943 18.553l0 531.216q0 52.731 -36.13 88.862t-88.862 36.13l-499.968 0q-52.731 0 -88.862 -36.13t-36.13 -88.862l0 -531.216q-25.389 0 -43.943 -18.553t-18.553 -43.943zm62.496 0l749.952 0l0 -62.496q0 -13.671 -8.789 -22.46t-22.46 -8.789l-687.456 0q-13.671 0 -22.46 8.789t-8.789 22.46l0 62.496zm62.496 593.712q0 25.389 18.553 43.943t43.943 18.553l499.968 0q25.389 0 43.943 -18.553t18.553 -43.943l0 -531.216l-624.96 0l0 531.216zm62.496 -31.248l0 -406.224q0 -13.671 8.789 -22.46t22.46 -8.789l62.496 0q13.671 0 22.46 8.789t8.789 22.46l0 406.224q0 13.671 -8.789 22.46t-22.46 8.789l-62.496 0q-13.671 0 -22.46 -8.789t-8.789 -22.46zm31.248 0l62.496 0l0 -406.224l-62.496 0l0 406.224zm31.248 -718.704l374.976 0l0 -31.248q0 -13.671 -8.789 -22.46t-22.46 -8.789l-312.48 0q-13.671 0 -22.46 8.789t-8.789 22.46l0 31.248zm124.992 718.704l0 -406.224q0 -13.671 8.789 -22.46t22.46 -8.789l62.496 0q13.671 0 22.46 8.789t8.789 22.46l0 406.224q0 13.671 -8.789 22.46t-22.46 8.789l-62.496 0q-13.671 0 -22.46 -8.789t-8.789 -22.46zm31.248 0l62.496 0l0 -406.224l-62.496 0l0 406.224zm156.24 0l0 -406.224q0 -13.671 8.789 -22.46t22.46 -8.789l62.496 0q13.671 0 22.46 8.789t8.789 22.46l0 406.224q0 13.671 -8.789 22.46t-22.46 8.789l-62.496 0q-13.671 0 -22.46 -8.789t-8.789 -22.46zm31.248 0l62.496 0l0 -406.224l-62.496 0l0 406.224z");
+        deleteIcon.setFill(iconColor);
+
+        resultIcon.setContent(
+                "M455.241 19.689h-74.545c-4.645 0-8.409 3.764-8.409 8.409c0 4.645 3.764 8.409 8.409 8.409h74.545c22.023 0 39.939 17.916 39.939 39.938v359.107c0 22.022-17.916 39.938-39.939 39.938H335.334c-4.645 0-8.409 3.764-8.409 8.409s3.764 8.409 8.409 8.409h119.907c31.297 0 56.759-25.461 56.758-56.756V76.446C511.999 45.15 486.537 19.689 455.241 19.689z " +
+
+                        "M301.697 475.491H56.758c-22.023 0-39.939-17.916-39.939-39.938V76.446c0-22.022 17.916-39.938 39.939-39.938H347.06c4.645 0 8.409-3.764 8.409-8.409c0-4.645-3.764-8.409-8.409-8.409H56.758C25.462 19.689 0 45.15 0 76.446v359.107c0 31.296 25.462 56.756 56.758 56.756h244.94c4.645 0 8.409-3.764 8.409-8.409S306.342 475.491 301.697 475.491z " +
+
+                        "M447.441 61.651H72.583c-9.604 0-17.418 7.814-17.418 17.417v83.737c0 9.604 7.814 17.418 17.418 17.418h36.321c4.645 0 8.409-3.764 8.409-8.409c0-4.645-3.764-8.409-8.409-8.409H72.583c-0.325 0-0.6-0.275-0.6-0.6V79.068c0-0.325 0.275-0.599 0.6-0.599h374.859c0.325 0 0.6 0.274 0.6 0.599v83.735c0 0.325-0.275 0.6-0.6 0.6H142.54c-4.645 0-8.409 3.764-8.409 8.409s3.764 8.409 8.409 8.409h304.901c9.606 0 17.419-7.813 17.418-17.417V79.068C464.859 69.465 457.045 61.651 447.441 61.651z " +
+
+                        "M228.892 208.704H63.573c-4.645 0-8.409 3.764-8.409 8.409v77.772c0 4.645 3.764 8.409 8.409 8.409h165.319c4.644 0 8.409-3.764 8.408-8.409v-77.772C237.301 212.468 233.537 208.704 228.892 208.704zM220.482 286.476h-148.5v-60.953h148.5V286.476z " +
+
+                        "M228.892 340.621H63.573c-4.645 0-8.409 3.764-8.409 8.409v77.772c0 4.645 3.764 8.409 8.409 8.409h165.319c4.644 0 8.409-3.764 8.408-8.409V349.03C237.301 344.385 233.537 340.621 228.892 340.621zM220.482 418.393h-148.5V357.44h148.5V418.393z " +
+
+                        "M447.441 208.704H282.122c-4.645 0-8.409 3.764-8.409 8.409v77.772c0 4.645 3.764 8.409 8.409 8.409h165.319c4.645 0 8.409-3.764 8.409-8.409v-77.772C455.85 212.468 452.086 208.704 447.441 208.704zM439.032 286.476H290.531v-60.953h148.501V286.476z " +
+
+                        "M447.441 340.621H282.122c-4.645 0-8.409 3.764-8.409 8.409v77.772c0 4.645 3.764 8.409 8.409 8.409h165.319c4.645 0 8.409-3.764 8.409-8.409V349.03C455.85 344.385 452.086 340.621 447.441 340.621zM439.032 418.393H290.531V357.44h148.501V418.393z"
+        );
+        resultIcon.setFill(iconColor);
+        resultIcon.setStroke(null);
+
+        hostTest.setGraphic(fixedIcon(hostIcon, 20));
+        editTestBtn.setGraphic(fixedIcon(editIcon, 20));
+        results.setGraphic(fixedIcon(resultIcon, 20));
+        deleteTest.setGraphic(fixedIcon(deleteIcon, 20));
+
+        hostTest.setPrefSize(28, 28);
+        editTestBtn.setPrefSize(28, 28);
+        results.setPrefSize(28, 28);
+        deleteTest.setPrefSize(28, 28);
+
+        hostTest.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+        editTestBtn.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+        results.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+        deleteTest.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+    }
+
+    private Node fixedIcon(Node node, double size) {
+        StackPane wrapper = new StackPane(node);
+        wrapper.setPrefSize(size, size);
+        wrapper.setMinSize(size, size);
+        wrapper.setMaxSize(size, size);
+
+        node.applyCss();
+
+        Bounds b = node.getLayoutBounds();
+        double scale = size / Math.max(b.getWidth(), b.getHeight());
+
+        node.setScaleX(scale);
+        node.setScaleY(scale);
+
+        return wrapper;
     }
 
     public void setIndex(int index) {
@@ -146,7 +246,7 @@ public class TestRowController {
 
             details.setText("");
             deleteTest.setDisable(false);
-            deleteTest.setStyle("-fx-background-color: #4f46e5;");
+            deleteTest.setStyle("-fx-background-color: #bb2121;");
             System.out.println("Server stopped...");
         }
     }
@@ -284,5 +384,8 @@ public class TestRowController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void editTest() {
     }
 }
