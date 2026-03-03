@@ -2,6 +2,7 @@ package av.entrance.client.controller.admin;
 
 import av.entrance.client.model.Question;
 import av.entrance.client.model.Test;
+import av.entrance.client.service.DeleteTestService;
 import av.entrance.client.service.UploadTestService;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -25,20 +26,28 @@ public class NewTestController {
     public HBox qNoBox;
     public Label testName;
     public TextField testNameEdit;
+    public boolean editFlag = false;
     @FXML
     private TextField o1, o2, o3, o4, co;
     @FXML
     private TextField questionField;
     @FXML
     private Label questionCount;
-
     private List<Question> questions = new ArrayList<>();
     private HashMap<Integer, Button> questionButtons = new HashMap<>();
     private int currentQuestion = 1;
+    private Test test;
 
     @FXML
     public void initialize() {
         testName.textProperty().bind(testNameEdit.textProperty());
+    }
+
+    public void setTest(Test test) {
+        this.test = test;
+        questions = test.getQuestions();
+        testNameEdit.setText(test.getTestName());
+        loadQuestion(1);
     }
 
     public void handleNext() {
@@ -102,7 +111,6 @@ public class NewTestController {
             o3.clear();
             o4.clear();
             co.clear();
-
 
             questionCount.setText(key + ".");
             return;
@@ -197,29 +205,39 @@ public class NewTestController {
             ButtonType okType = new ButtonType("OK");
             alert.getButtonTypes().setAll(okType);
 
-            Button okButton = (Button) alert.getDialogPane().lookupButton(okType);
-            okButton.setOnAction(new EventHandler<>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/av/entrance/client/admin/dashboard.fxml"));
-                    Parent root;
-                    try {
-                        root = loader.load();
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/av/entrance/client/admin/dashboard.fxml"));
+            DashboardController controller = loader.getController();
 
-                    Stage stage = (Stage) questionResponse.getScene().getWindow();
-                    stage.setScene(new Scene(root));
-                    stage.setTitle("Admin Dashboard");
-                    stage.show();
-                    stage.centerOnScreen();
+            Button okButton = (Button) alert.getDialogPane().lookupButton(okType);
+            okButton.setOnAction(actionEvent -> {
+                Parent root;
+                try {
+                    root = loader.load();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
                 }
+
+                Stage stage1 = (Stage) questionResponse.getScene().getWindow();
+                stage1.setScene(new Scene(root));
+                stage1.setTitle("Admin Dashboard");
+                stage1.show();
+                stage1.centerOnScreen();
             });
 
             alert.showAndWait();
 
             questionResponse.setText("Test Published");
+
+            if (editFlag) {
+                DeleteTestService deleteTestService = new DeleteTestService(this.test);
+                deleteTestService.setOnSucceeded(event -> {
+                    String deleteResponse = deleteTestService.getValue();
+                    System.out.println("Server response: " + deleteResponse);
+                });
+
+                deleteTestService.start();
+            }
+            controller.refresh();
         });
 
         service.setOnFailed(e -> {

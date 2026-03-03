@@ -47,12 +47,6 @@ public class ExamController {
     private int seconds;
     private Timeline timeline;
 
-    private Stage stage;
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
     @FXML
     public void initialize() {
         optionGroup = new ToggleGroup();

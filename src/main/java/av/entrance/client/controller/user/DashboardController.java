@@ -125,7 +125,6 @@ public class DashboardController {
             Scene scene = new Scene(scrollPane);
 
             Stage stage = (Stage) responseLabel.getScene().getWindow();
-            examController.setStage(stage);
 
             AtomicInteger focusLostCount = new AtomicInteger(0);
 

@@ -1,5 +1,6 @@
 package av.entrance.client.controller.user.items;
 
+import av.entrance.client.controller.admin.NewTestController;
 import av.entrance.client.model.SubmitResponse;
 import av.entrance.client.model.Test;
 import av.entrance.client.model.UserResult;
@@ -10,10 +11,12 @@ import av.entrance.client.service.GetResultsService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -386,6 +389,25 @@ public class TestRowController {
         }
     }
 
-    public void editTest() {
+    public void editTest() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/av/entrance/client/admin/new_test.fxml"));
+        Parent root = loader.load();
+
+        NewTestController testController = loader.getController();
+        testController.setTest(test);
+        testController.editFlag = true;
+
+        ScrollPane scrollPane = new ScrollPane(root);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+
+        Scene scene = new Scene(scrollPane);
+
+        Stage stage = (Stage) testName.getScene().getWindow();
+        stage.setScene(scene);
+        stage.setTitle("Edit Test - Entrance Exam - Guru Gobind Singh Public School - Dhanbad");
+        stage.setResizable(false);
+        stage.show();
+        stage.centerOnScreen();
     }
 }
