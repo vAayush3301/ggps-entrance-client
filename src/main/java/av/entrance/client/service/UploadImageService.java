@@ -7,10 +7,10 @@ import okhttp3.*;
 import java.io.File;
 import java.util.Objects;
 
-public class ImageUploadService extends Service<String> {
+public class UploadImageService extends Service<String> {
     private final File image;
 
-    public ImageUploadService(File image) {
+    public UploadImageService(File image) {
         this.image = image;
     }
 

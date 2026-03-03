@@ -5,7 +5,7 @@ import av.entrance.client.model.Question;
 import av.entrance.client.model.Test;
 import av.entrance.client.service.DeleteImageService;
 import av.entrance.client.service.DeleteTestService;
-import av.entrance.client.service.ImageUploadService;
+import av.entrance.client.service.UploadImageService;
 import av.entrance.client.service.UploadTestService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -312,7 +312,7 @@ public class NewTestController {
         );
         File selected = fileChooser.showSaveDialog(stage);
 
-        ImageUploadService uploadService = new ImageUploadService(selected);
+        UploadImageService uploadService = new UploadImageService(selected);
 
         uploadService.setOnSucceeded(event -> {
             String key = uploadService.getValue();
