@@ -69,8 +69,6 @@ public class TestRowController {
         resultIcon = new SVGPath();
         deleteIcon = new SVGPath();
 
-        double iconSize = 24;
-
         Color iconColor = Color.valueOf("#fffed6");
         Group hostIcon = new Group();
 
