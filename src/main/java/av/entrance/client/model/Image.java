@@ -1,0 +1,26 @@
+package av.entrance.client.model;
+
+public class Image {
+    private String imageKey, imageAlt;
+
+    public Image(String imageKey, String imageAlt) {
+        this.imageKey = imageKey;
+        this.imageAlt = imageAlt;
+    }
+
+    public String getImageKey() {
+        return imageKey;
+    }
+
+    public void setImageKey(String imageKey) {
+        this.imageKey = imageKey;
+    }
+
+    public String getImageAlt() {
+        return imageAlt;
+    }
+
+    public void setImageAlt(String imageAlt) {
+        this.imageAlt = imageAlt;
+    }
+}

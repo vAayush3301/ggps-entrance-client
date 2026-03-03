@@ -18,6 +18,7 @@
             <Label text="Blank Test" fx:id="testName" style="-fx-font-weight: bold; -fx-font-size: 24px;"
                    HBox.hgrow="ALWAYS"
                    prefWidth="800"/>
+            <Button text="Add Images" fx:id="addImages" onAction="#addImage"/>
             <Button text="Publish" onAction="#publish"/>
         </HBox>
     </top>

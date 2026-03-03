@@ -1,20 +1,29 @@
 package av.entrance.client.controller.admin;
 
+import av.entrance.client.model.Image;
 import av.entrance.client.model.Question;
 import av.entrance.client.model.Test;
 import av.entrance.client.service.DeleteTestService;
+import av.entrance.client.service.ImageUploadService;
 import av.entrance.client.service.UploadTestService;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.SVGPath;
+import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,11 +31,14 @@ import java.util.List;
 import java.util.Optional;
 
 public class NewTestController {
+    private final HashMap<Integer, Button> questionButtons = new HashMap<>();
+    private final List<Image> imageKeys = new ArrayList<>();
     public Label questionResponse;
     public HBox qNoBox;
     public Label testName;
     public TextField testNameEdit;
     public boolean editFlag = false;
+    public Button addImages;
     @FXML
     private TextField o1, o2, o3, o4, co;
     @FXML
@@ -34,13 +46,17 @@ public class NewTestController {
     @FXML
     private Label questionCount;
     private List<Question> questions = new ArrayList<>();
-    private HashMap<Integer, Button> questionButtons = new HashMap<>();
     private int currentQuestion = 1;
     private Test test;
 
     @FXML
     public void initialize() {
         testName.textProperty().bind(testNameEdit.textProperty());
+
+        SVGPath addImagesPath = new SVGPath();
+        addImagesPath.setContent("M23 4v2h-3v3h-2V6h-3V4h3V1h2v3h3zm-8.5 7c.828 0 1.5-.672 1.5-1.5S15.328 8 14.5 8 13 8.672 13 9.5s.672 1.5 1.5 1.5zm3.5 3.234l-.513-.57c-.794-.885-2.18-.885-2.976 0l-.655.73L9 9l-3 3.333V6h7V4H6c-1.105 0-2 .895-2 2v12c0 1.105.895 2 2 2h12c1.105 0 2-.895 2-2v-7h-2v3.234z");
+        addImagesPath.setFill(Color.WHITE);
+        addImages.setGraphic(addImagesPath);
     }
 
     public void setTest(Test test) {
@@ -164,7 +180,7 @@ public class NewTestController {
         dialog.setContentText("Enter Test duration in minutes:");
 
         Stage dialogStage = (Stage) dialog.getDialogPane().getScene().getWindow();
-        dialogStage.getIcons().add(new Image(getClass().getResourceAsStream("/av/entrance/client/images/logos/logo.png")));
+        dialogStage.getIcons().add(new javafx.scene.image.Image(getClass().getResourceAsStream("/av/entrance/client/images/logos/logo.png")));
 
         Optional<String> result = dialog.showAndWait();
         String duration;
@@ -182,7 +198,7 @@ public class NewTestController {
             alert.setContentText("Test Duration must be numeric.");
 
             Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-            stage.getIcons().add(new Image(getClass().getResourceAsStream("/av/entrance/client/images/logos/logo.png")));
+            stage.getIcons().add(new javafx.scene.image.Image(getClass().getResourceAsStream("/av/entrance/client/images/logos/logo.png")));
 
             alert.showAndWait();
 
@@ -200,7 +216,7 @@ public class NewTestController {
             alert.setContentText("You will be redirected to Home Page.");
 
             Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-            stage.getIcons().add(new Image(getClass().getResourceAsStream("/av/entrance/client/images/logos/logo.png")));
+            stage.getIcons().add(new javafx.scene.image.Image(getClass().getResourceAsStream("/av/entrance/client/images/logos/logo.png")));
 
             ButtonType okType = new ButtonType("OK");
             alert.getButtonTypes().setAll(okType);
@@ -248,5 +264,87 @@ public class NewTestController {
         });
 
         service.start();
+    }
+
+    public void addImage() {
+        Stage stage = new Stage();
+        TableView<Image> imageTable = createTable(imageKeys);
+
+        BorderPane root = new BorderPane();
+        root.setCenter(imageTable);
+
+        HBox topBar = new HBox(10);
+        topBar.setStyle("-fx-padding: 10;");
+
+        TextField imageText = new TextField();
+        imageText.setPromptText("Image Text");
+
+        Button export = new Button("Upload Image");
+        export.setStyle("-fx-padding: 8; -fx-background-color: #1D6F42; -fx-text-fill: #ffffff");
+        export.setOnAction(e -> uploadImage(stage, imageText.getText(), imageTable));
+        HBox.setMargin(export, new Insets(0, 0, 0, 20));
+
+        topBar.getChildren().add(imageText);
+        topBar.getChildren().add(export);
+        root.setTop(topBar);
+
+        Scene scene = new Scene(root, 700, 450);
+        scene.getStylesheets().add(getClass().getResource("/av/entrance/client/styles/table-style.css").toExternalForm());
+
+        stage.setTitle("Images");
+        stage.setScene(scene);
+
+        stage.getIcons().add(new javafx.scene.image.Image(getClass().getResourceAsStream("/av/entrance/client/images/logos/logo.png")));
+
+        stage.initModality(Modality.NONE);
+        stage.show();
+        stage.centerOnScreen();
+    }
+
+    private void uploadImage(Stage stage, String altText, TableView<Image> imageTable) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg")
+        );
+        File selected = fileChooser.showSaveDialog(stage);
+
+        ImageUploadService uploadService = new ImageUploadService(selected);
+
+        uploadService.setOnSucceeded(event -> {
+            String key = uploadService.getValue();
+
+            if (!key.isEmpty()) {
+                Image image = new Image(key, altText);
+                imageKeys.add(image);
+                imageTable.setItems(FXCollections.observableArrayList(imageKeys));
+            }
+        });
+
+        uploadService.start();
+    }
+
+    private TableView<Image> createTable(List<Image> images) {
+        ObservableList<Image> imageKeys = FXCollections.observableArrayList(images);
+        TableView<Image> imageTable = new TableView<>(imageKeys);
+
+        TableColumn<Image, String> altTextCol = new TableColumn<>("Text");
+        altTextCol.setCellValueFactory(new PropertyValueFactory<>("imageAlt"));
+        altTextCol.setStyle("-fx-alignment: CENTER");
+
+        TableColumn<Image, String> keyCol = new TableColumn<>("Key");
+        keyCol.setCellValueFactory(new PropertyValueFactory<>("imageKey"));
+        keyCol.setStyle("-fx-alignment: CENTER");
+
+        imageTable.getColumns().addAll(altTextCol, keyCol);
+
+        imageTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        imageTable.setTableMenuButtonVisible(false);
+        imageTable.setSelectionModel(imageTable.getSelectionModel());
+        imageTable.setPlaceholder(new Label("No Data Available"));
+        imageTable.setEditable(false);
+
+        imageTable.setStyle("-fx-table-cell-border-color: transparent;");
+
+        return imageTable;
     }
 }
