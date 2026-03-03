@@ -306,6 +306,18 @@ public class NewTestController {
     }
 
     private void uploadImage(Stage stage, String altText, TableView<Image> imageTable) {
+        if (altText.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Alt Text Required");
+            alert.setHeaderText("Alt Text Missing");
+            alert.setContentText("You need an Alt Text to add image...");
+
+            Stage alertStage = (Stage) alert.getDialogPane().getScene().getWindow();
+            alertStage.getIcons().add(new javafx.scene.image.Image(getClass().getResourceAsStream("/av/entrance/client/images/logos/logo.png")));
+
+            alertStage.showAndWait();
+            return;
+        }
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg")
