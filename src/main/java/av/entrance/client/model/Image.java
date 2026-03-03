@@ -8,6 +8,9 @@ public class Image {
         this.imageAlt = imageAlt;
     }
 
+    public Image() {
+    }
+
     public String getImageKey() {
         return imageKey;
     }

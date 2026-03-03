@@ -36,7 +36,7 @@ import java.util.Optional;
 
 public class NewTestController {
     private final HashMap<Integer, Button> questionButtons = new HashMap<>();
-    private final List<Image> imageKeys = new ArrayList<>();
+    private List<Image> imageKeys = new ArrayList<>();
     public Label questionResponse;
     public HBox qNoBox;
     public Label testName;
@@ -65,6 +65,7 @@ public class NewTestController {
 
     public void setTest(Test test) {
         this.test = test;
+        this.imageKeys = test.getImageKeys();
         questions = test.getQuestions();
         testNameEdit.setText(test.getTestName());
         loadQuestion(1);
@@ -195,6 +196,7 @@ public class NewTestController {
         Test test;
         try {
             test = new Test(testName.getText(), questions, Integer.parseInt(duration));
+            test.setImageKeys(imageKeys);
         } catch (NumberFormatException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -226,17 +228,18 @@ public class NewTestController {
             alert.getButtonTypes().setAll(okType);
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/av/entrance/client/admin/dashboard.fxml"));
+
+            Parent root;
+            try {
+                root = loader.load();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+
             DashboardController controller = loader.getController();
 
             Button okButton = (Button) alert.getDialogPane().lookupButton(okType);
             okButton.setOnAction(actionEvent -> {
-                Parent root;
-                try {
-                    root = loader.load();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-
                 Stage stage1 = (Stage) questionResponse.getScene().getWindow();
                 stage1.setScene(new Scene(root));
                 stage1.setTitle("Admin Dashboard");
@@ -322,7 +325,7 @@ public class NewTestController {
         fileChooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg")
         );
-        File selected = fileChooser.showSaveDialog(stage);
+        File selected = fileChooser.showOpenDialog(stage);
 
         UploadImageService uploadService = new UploadImageService(selected);
 
@@ -385,7 +388,10 @@ public class NewTestController {
                     Image imageDel = getTableView().getItems().get(getIndex());
 
                     DeleteImageService deleteImageService = new DeleteImageService(imageDel.getImageKey());
-                    deleteImageService.setOnSucceeded(event1 -> getTableView().getItems().remove(imageDel));
+                    deleteImageService.setOnSucceeded(event1 -> {
+                        imageKeys.remove(imageDel.getImageKey());
+                        getTableView().getItems().remove(imageDel);
+                    });
                     deleteImageService.start();
                 });
             }

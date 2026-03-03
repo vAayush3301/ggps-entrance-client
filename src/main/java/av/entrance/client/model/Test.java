@@ -7,6 +7,7 @@ public class Test {
     private String testName;
     private List<Question> questions;
     private int duration;
+    private List<Image> imageKeys;
 
     public Test(String testId, String testName, List<Question> questions, int duration) {
         this.testId = testId;
@@ -22,6 +23,14 @@ public class Test {
     }
 
     public Test() {
+    }
+
+    public List<Image> getImageKeys() {
+        return imageKeys;
+    }
+
+    public void setImageKeys(List<Image> imageKeys) {
+        this.imageKeys = imageKeys;
     }
 
     public String getTestId() {
