@@ -6,7 +6,7 @@ jpackage --type msi ^
   --main-class av.entrance.client.Launcher ^
   --icon "src/main/resources/av/entrance/client/images/logos/logo.ico" ^
   --vendor "Aayush Vishwakarma" ^
-  --app-version "1.0.0" ^
+  --app-version "1.1.0" ^
   --description "Exam Management and Entrance Application" ^
   --copyright "Copyright 2026 Aayush Vishwakarma" ^
   --win-dir-chooser ^
