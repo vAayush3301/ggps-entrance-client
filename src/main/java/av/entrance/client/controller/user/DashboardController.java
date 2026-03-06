@@ -112,11 +112,6 @@ public class DashboardController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/av/entrance/client/user/exam_page.fxml"));
             BorderPane root = loader.load();
 
-            ExamController examController = loader.getController();
-            examController.setUserID(userID);
-            examController.setTestIp(ip);
-            examController.setTestPort(port);
-            examController.setTest(test);
 
             ScrollPane scrollPane = new ScrollPane(root);
             scrollPane.setFitToWidth(true);
@@ -125,6 +120,13 @@ public class DashboardController {
             Scene scene = new Scene(scrollPane);
 
             Stage stage = (Stage) responseLabel.getScene().getWindow();
+
+            ExamController examController = loader.getController();
+            examController.setUserID(userID);
+            examController.setTestIp(ip);
+            examController.setTestPort(port);
+            examController.setStage(stage);
+            examController.setTest(test);
 
             AtomicInteger focusLostCount = new AtomicInteger(0);
 

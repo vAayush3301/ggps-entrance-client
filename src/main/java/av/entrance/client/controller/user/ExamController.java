@@ -45,14 +45,14 @@ public class ExamController {
     private List<Question> questions = new ArrayList<>();
     private ToggleGroup optionGroup;
     private int currentCount = 1;
-
     private String userID;
     private String testIp, testPort;
-
+    private Stage stage;
     private int seconds;
     private Timeline timeline;
-
     private List<av.entrance.client.model.Image> imageKeys = new ArrayList<>();
+
+    private boolean submitFlag = false;
 
     @FXML
     public void initialize() {
@@ -64,6 +64,10 @@ public class ExamController {
         o4.setToggleGroup(optionGroup);
 
         questionCount.setText(currentCount + ".");
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 
     public void setTest(Test test) {
@@ -115,6 +119,10 @@ public class ExamController {
     }
 
     public void submit(String message) throws IOException {
+        if (submitFlag) {
+            return;
+        }
+        submitFlag = true;
         saveResponse(currentCount);
 
         if (message.isEmpty()) message = "Submitting your response...";
@@ -163,8 +171,8 @@ public class ExamController {
         alert.setHeaderText("Your response has been submitted.");
         alert.setContentText("You will be redirected to Home Page.");
 
-        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("/av/entrance/client/images/logos/logo.png")));
+        Stage alertStage = (Stage) alert.getDialogPane().getScene().getWindow();
+        alertStage.getIcons().add(new Image(getClass().getResourceAsStream("/av/entrance/client/images/logos/logo.png")));
 
         alert.showAndWait();
 
@@ -272,7 +280,9 @@ public class ExamController {
                 img.setFitWidth(200);
                 img.setPreserveRatio(true);
 
+                questionText.getChildren().add(new Text("\n"));
                 questionText.getChildren().add(img);
+                questionText.getChildren().add(new Text("\n"));
             }
 
             last = matcher.end();
