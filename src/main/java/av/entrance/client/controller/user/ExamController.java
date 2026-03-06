@@ -15,7 +15,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -26,6 +29,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ExamController {
     private static final ObjectMapper mapper = new ObjectMapper();
@@ -33,7 +38,7 @@ public class ExamController {
     public Label testName;
     public RadioButton o1, o2, o3, o4;
     public Label questionCount;
-    public Label questionText;
+    public TextFlow questionText;
     public Label questionResponse;
     public HBox qNoBox;
     public Label timer;
@@ -46,6 +51,8 @@ public class ExamController {
 
     private int seconds;
     private Timeline timeline;
+
+    private List<av.entrance.client.model.Image> imageKeys = new ArrayList<>();
 
     @FXML
     public void initialize() {
@@ -61,6 +68,7 @@ public class ExamController {
 
     public void setTest(Test test) {
         testName.setText(test.getTestName());
+        imageKeys = test.getImageKeys();
         questions = test.getQuestions();
         Collections.shuffle(questions);
         loadQuestion(currentCount);
@@ -224,13 +232,55 @@ public class ExamController {
         String option3 = question.getOption3();
         String option4 = question.getOption4();
 
-        questionText.setText(qText);
         o1.setText(option1);
         o2.setText(option2);
         o3.setText(option3);
         o4.setText(option4);
 
         questionCount.setText(currentCount + ".");
+
+        setImage(questionText, qText);
+    }
+
+    private void setImage(TextFlow questionText, String qText) {
+        questionText.getChildren().clear();
+
+        Pattern pattern = Pattern.compile("\\[\\$(.*?)\\$\\]");
+        Matcher matcher = pattern.matcher(qText);
+
+        int last = 0;
+
+        while (matcher.find()) {
+
+            if (matcher.start() > last) {
+                String textPart = qText.substring(last, matcher.start());
+                questionText.getChildren().add(new Text(textPart));
+            }
+
+            String alt = matcher.group(1);
+
+            String key = imageKeys.stream()
+                    .filter(img -> img.getImageAlt().equals(alt))
+                    .map(av.entrance.client.model.Image::getImageKey)
+                    .findFirst()
+                    .orElse(null);
+
+            if (key != null) {
+                String url = "http://%s:%s/images/%s".formatted(testIp, testPort, key);
+
+                ImageView img = new ImageView(new Image(url, true));
+                img.setFitWidth(200);
+                img.setPreserveRatio(true);
+
+                questionText.getChildren().add(img);
+            }
+
+            last = matcher.end();
+        }
+
+        if (last < qText.length()) {
+            questionText.getChildren().add(new Text(qText.substring(last)));
+        }
     }
 
     private void saveResponse(int key) {

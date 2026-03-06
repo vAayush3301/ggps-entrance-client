@@ -113,10 +113,10 @@ public class DashboardController {
             BorderPane root = loader.load();
 
             ExamController examController = loader.getController();
-            examController.setTest(test);
             examController.setUserID(userID);
             examController.setTestIp(ip);
             examController.setTestPort(port);
+            examController.setTest(test);
 
             ScrollPane scrollPane = new ScrollPane(root);
             scrollPane.setFitToWidth(true);

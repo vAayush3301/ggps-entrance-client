@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.TextFlow?>
 <BorderPane stylesheets="@../styles/exam.css"
             xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
@@ -31,7 +32,7 @@
             <GridPane hgap="10" vgap="40">
                 <Label wrapText="true" text="1." fx:id="questionCount" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
 
-                <Label wrapText="true" text="Question Text" fx:id="questionText" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                <TextFlow fx:id="questionText" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
                 <Label wrapText="true" text="1." GridPane.rowIndex="1" GridPane.columnIndex="1"/>
                 <RadioButton wrapText="true" styleClass="option" text="Enter Option" GridPane.rowIndex="1" GridPane.columnIndex="2" minWidth="500"
