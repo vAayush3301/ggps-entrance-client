@@ -16,9 +16,9 @@
     <Label fx:id="testName" text="Test Name" prefWidth="240"/>
     <Label fx:id="duration" prefWidth="140" text="1 Hour" textAlignment="CENTER"/>
     <Label fx:id="details" prefWidth="140" textAlignment="CENTER"/>
-    <Button fx:id="hostTest" text="Host" onAction="#host_and_end" cursor="HAND"/>
-    <Button fx:id="results" text="Results" onAction="#get_results" cursor="HAND"/>
-    <Button fx:id="editTestBtn" text="Edit" onAction="#editTest" cursor="HAND"/>
-    <Button fx:id="deleteTest" text="Delete" onAction="#delete" style="-fx-background-color: #bb2121;" cursor="HAND"/>
+    <Button fx:id="hostTest" text="Host" onAction="#host_and_end" cursor="$HAND"/>
+    <Button fx:id="results" text="Results" onAction="#get_results" cursor="$HAND"/>
+    <Button fx:id="editTestBtn" text="Edit" onAction="#editTest" cursor="$HAND"/>
+    <Button fx:id="deleteTest" text="Delete" onAction="#delete" style="-fx-background-color: #bb2121;" cursor="$HAND"/>
 
 </HBox>

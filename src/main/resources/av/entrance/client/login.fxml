@@ -34,7 +34,7 @@
                 </GridPane>
             </VBox>
 
-            <Button text="Login" prefWidth="120" onAction="#handleLogin" cursor="HAND"/>
+            <Button text="Login" prefWidth="120" onAction="#handleLogin" cursor="$HAND"/>
 
             <Label alignment="CENTER" fx:id="responseLabel"/>
         </VBox>
@@ -45,7 +45,7 @@
             <padding>
                 <Insets right="10" bottom="10" left="10"/>
             </padding>
-            <Button text="Info" fx:id="info" onAction="#showInfo" cursor="HAND"/>
+            <Button text="Info" fx:id="info" onAction="#showInfo" cursor="$HAND"/>
         </HBox>
     </bottom>
 

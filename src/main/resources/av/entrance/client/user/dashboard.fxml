@@ -16,7 +16,7 @@
             <Button wrapText="true" text="Logout" style="-fx-background-color: #bb2121;" fx:id="logout"
                     onAction="#logout"
                     HBox.hgrow="ALWAYS"
-                    cursor="HAND"/>
+                    cursor="$HAND"/>
         </HBox>
     </top>
     <center>
@@ -48,7 +48,7 @@
 
                 <Button text="Attempt Test" wrapText="true" prefWidth="180" onAction="#attemptTest"
                         textAlignment="CENTER"
-                        cursor="HAND"/>
+                        cursor="$HAND"/>
 
                 <Label alignment="CENTER" fx:id="responseLabel" wrapText="true"/>
             </VBox>

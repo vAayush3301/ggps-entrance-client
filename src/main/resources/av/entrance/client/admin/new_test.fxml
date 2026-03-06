@@ -14,12 +14,12 @@
                 <Insets top="20" right="40" bottom="20" left="40"/>
             </padding>
             <Button text="Close" style="-fx-background-color: #bb2121;" fx:id="cancel" onAction="#cancel"
-                    HBox.hgrow="ALWAYS" cursor="HAND"/>
+                    HBox.hgrow="ALWAYS" cursor="$HAND"/>
             <Label text="Blank Test" fx:id="testName" style="-fx-font-weight: bold; -fx-font-size: 24px;"
                    HBox.hgrow="ALWAYS"
                    prefWidth="800"/>
-            <Button text="Add Images" fx:id="addImages" onAction="#addImage" cursor="HAND"/>
-            <Button text="Publish" onAction="#publish" cursor="HAND"/>
+            <Button text="Add Images" fx:id="addImages" onAction="#addImage" cursor="$HAND"/>
+            <Button text="Publish" onAction="#publish" cursor="$HAND"/>
         </HBox>
     </top>
 
@@ -62,8 +62,8 @@
 
             <HBox spacing="40" alignment="CENTER_RIGHT">
                 <Label fx:id="questionResponse" prefWidth="400"/>
-                <Button text="Previous" fx:id="previousQuestionBtn" onAction="#handlePrevious" cursor="HAND"/>
-                <Button text="Next" fx:id="nextQuestionBtn" onAction="#handleNext" cursor="HAND"/>
+                <Button text="Previous" fx:id="previousQuestionBtn" onAction="#handlePrevious" cursor="$HAND"/>
+                <Button text="Next" fx:id="nextQuestionBtn" onAction="#handleNext" cursor="$HAND"/>
             </HBox>
 
             <HBox spacing="20" alignment="CENTER_LEFT" fx:id="qNoBox">
