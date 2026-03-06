@@ -360,8 +360,8 @@ public class NewTestController {
     }
 
     private TableView<Image> createTable(List<Image> images) {
-        ObservableList<Image> imageKeys = FXCollections.observableArrayList(images);
-        TableView<Image> imageTable = new TableView<>(imageKeys);
+        ObservableList<Image> imageKeysLocal = FXCollections.observableArrayList(images);
+        TableView<Image> imageTable = new TableView<>(imageKeysLocal);
 
         TableColumn<Image, String> altTextCol = new TableColumn<>("Text");
         altTextCol.setCellValueFactory(new PropertyValueFactory<>("imageAlt"));
@@ -389,8 +389,8 @@ public class NewTestController {
 
                     DeleteImageService deleteImageService = new DeleteImageService(imageDel.getImageKey());
                     deleteImageService.setOnSucceeded(event1 -> {
-                        imageKeys.remove(imageDel.getImageKey());
-                        getTableView().getItems().remove(imageDel);
+                        imageKeys.remove(imageDel);
+                        imageTable.setItems(FXCollections.observableArrayList(imageKeysLocal));
                     });
                     deleteImageService.start();
                 });
