@@ -17,6 +17,9 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -27,6 +30,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.awt.*;
+import java.awt.datatransfer.StringSelection;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,13 +41,13 @@ import java.util.Optional;
 
 public class NewTestController {
     private final HashMap<Integer, Button> questionButtons = new HashMap<>();
-    private List<Image> imageKeys = new ArrayList<>();
     public Label questionResponse;
     public HBox qNoBox;
     public Label testName;
     public TextField testNameEdit;
     public boolean editFlag = false;
     public Button addImages;
+    private List<Image> imageKeys = new ArrayList<>();
     @FXML
     private TextField o1, o2, o3, o4, co;
     @FXML
@@ -371,8 +376,39 @@ public class NewTestController {
         keyCol.setCellValueFactory(new PropertyValueFactory<>("imageKey"));
         keyCol.setStyle("-fx-alignment: CENTER");
 
-        TableColumn<Image, Void> actionCol = new TableColumn<>("Delete");
-        actionCol.setCellFactory(col -> new TableCell<>() {
+
+        TableColumn<Image, Void> copyCol = new TableColumn<>("Copy");
+        copyCol.setCellFactory(col -> new TableCell<>() {
+            final SVGPath copyIcon = new SVGPath();
+            private final Button copy = new Button("Copy");
+
+            {
+                copy.setStyle("-fx-background-color: #ffffff00;");
+                copyIcon.setContent("M13.49 3 10.74.37A1.22 1.22 0 0 0 9.86 0h-4a1.25 1.25 0 0 0-1.22 1.25v11a1.25 1.25 0 0 0 1.25 1.25h6.72a1.25 1.25 0 0 0 1.25-1.25V3.88a1.22 1.22 0 0 0-.37-.88zm-.88 9.25H5.89v-11h2.72v2.63a1.25 1.25 0 0 0 1.25 1.25h2.75zm0-8.37H9.86V1.25l2.75 2.63z M10.11 14.75H3.39v-11H4V2.5h-.61a1.25 1.25 0 0 0-1.25 1.25v11A1.25 1.25 0 0 0 3.39 16h6.72a1.25 1.25 0 0 0 1.25-1.25v-.63h-1.25z");
+                copyIcon.setFill(Color.valueOf("#000000"));
+                copy.setGraphic(fixedIcon(copyIcon, 20));
+                copy.setPrefSize(28, 28);
+                copy.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+
+                copy.setOnAction(event -> {
+                    String altText = "[$" + getTableView().getItems().get(getIndex()).getImageAlt() + "$]";
+
+                    StringSelection selection = new StringSelection(altText);
+                    Toolkit.getDefaultToolkit()
+                            .getSystemClipboard()
+                            .setContents(selection, null);
+                });
+            }
+
+            @Override
+            protected void updateItem(Void unused, boolean b) {
+                super.updateItem(unused, b);
+                setGraphic(b ? null : copy);
+            }
+        });
+
+        TableColumn<Image, Void> deleteCol = new TableColumn<>("Delete");
+        deleteCol.setCellFactory(col -> new TableCell<>() {
             final SVGPath deleteIcon = new SVGPath();
             private final Button delete = new Button("Delete");
 
@@ -403,7 +439,7 @@ public class NewTestController {
             }
         });
 
-        imageTable.getColumns().addAll(altTextCol, keyCol, actionCol);
+        imageTable.getColumns().addAll(altTextCol, keyCol, copyCol, deleteCol);
 
         imageTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         imageTable.setTableMenuButtonVisible(false);
