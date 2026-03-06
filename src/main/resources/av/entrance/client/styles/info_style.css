@@ -1,0 +1,36 @@
+@font-face {
+    font-family: "Open Sans";
+    src: url("fonts/open_sans_variable.ttf");
+}
+
+.root {
+    -fx-font-family: "Open Sans";
+    -fx-background-color: #FFFFFF;
+    -fx-padding: 20;
+}
+
+.title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2C3E50;
+}
+
+.author {
+    -fx-font-size: 16px;
+    -fx-text-fill: #34495E;
+    -fx-font-weight: MEDIUM;
+}
+
+.email {
+    -fx-font-size: 14px;
+    -fx-text-fill: #1ABC9C;
+}
+
+.github {
+    -fx-font-size: 14px;
+    -fx-text-fill: #2980B9;
+}
+
+.center Label {
+    -fx-padding: 4 0 4 0;
+}

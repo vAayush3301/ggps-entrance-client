@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            prefHeight="400.0" prefWidth="600.0"
+            stylesheets="@styles/info_style.css">
+
+    <top>
+        <HBox alignment="CENTER" spacing="24">
+            <padding>
+                <Insets top="10" right="40" bottom="30" left="40"/>
+            </padding>
+            <Label text="ExamDesk" alignment="CENTER" styleClass="title"/>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="16">
+            <padding>
+                <Insets top="10" right="40" bottom="10" left="40"/>
+            </padding>
+
+            <Label text="Contact Information" alignment="TOP_LEFT"
+                   style="-fx-text-decoration: underline; -fx-font-size: 16px;"/>
+
+            <Label text="Name: Aayush Vishwakarma" styleClass="author"/>
+            <Label text="Email: aayushv3301@gmail.com" styleClass="email"/>
+            <Label text="GitHub: github.com/vAayush3301" styleClass="github"/>
+            <Label text="ExamDesk Repo: github.com/vAayush3301/ggps-entrance-client" styleClass="github"/>
+
+            <HBox alignment="CENTER">
+                <ImageView fitWidth="190" preserveRatio="true" pickOnBounds="true">
+                    <Image url="@images/logos/av.png"/>
+                </ImageView>
+            </HBox>
+        </VBox>
+    </center>
+
+</BorderPane>

@@ -14,12 +14,13 @@
             <padding>
                 <Insets top="20" right="40" bottom="20" left="40"/>
             </padding>
-            <Label wrapText="true" text="Blank Test" fx:id="testName" style="-fx-font-weight: bold; -fx-font-size: 24px;"
+            <Label wrapText="true" text="Blank Test" fx:id="testName"
+                   style="-fx-font-weight: bold; -fx-font-size: 24px;"
                    alignment="CENTER"
                    minWidth="800" HBox.hgrow="ALWAYS"/>
             <Label text="Time: 00:00:00" prefWidth="200" fx:id="timer" style="-fx-font-size: 18px;"
                    textAlignment="CENTER" HBox.hgrow="ALWAYS"/>
-            <Button text="Submit" onAction="#submitBtn" alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS"/>
+            <Button text="Submit" onAction="#submitBtn" alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS" cursor="HAND"/>
         </HBox>
     </top>
 
@@ -35,20 +36,24 @@
                 <TextFlow fx:id="questionText" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
                 <Label wrapText="true" text="1." GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-                <RadioButton wrapText="true" styleClass="option" text="Enter Option" GridPane.rowIndex="1" GridPane.columnIndex="2" minWidth="500"
-                             fx:id="o1"/>
+                <RadioButton wrapText="true" styleClass="option" text="Enter Option" GridPane.rowIndex="1"
+                             GridPane.columnIndex="2" minWidth="500"
+                             fx:id="o1" cursor="HAND"/>
 
                 <Label wrapText="true" text="2." GridPane.rowIndex="2" GridPane.columnIndex="1"/>
-                <RadioButton wrapText="true" styleClass="option" text="Enter Option" GridPane.rowIndex="2" GridPane.columnIndex="2" minWidth="500"
-                             fx:id="o2"/>
+                <RadioButton wrapText="true" styleClass="option" text="Enter Option" GridPane.rowIndex="2"
+                             GridPane.columnIndex="2" minWidth="500"
+                             fx:id="o2" cursor="HAND"/>
 
                 <Label wrapText="true" text="3." GridPane.rowIndex="3" GridPane.columnIndex="1"/>
-                <RadioButton wrapText="true" styleClass="option" text="Enter Option" GridPane.rowIndex="3" GridPane.columnIndex="2" minWidth="500"
-                             fx:id="o3"/>
+                <RadioButton wrapText="true" styleClass="option" text="Enter Option" GridPane.rowIndex="3"
+                             GridPane.columnIndex="2" minWidth="500"
+                             fx:id="o3" cursor="HAND"/>
 
                 <Label wrapText="true" text="4." GridPane.rowIndex="4" GridPane.columnIndex="1"/>
-                <RadioButton wrapText="true" styleClass="option" text="Enter Option" GridPane.rowIndex="4" GridPane.columnIndex="2" minWidth="500"
-                             fx:id="o4"/>
+                <RadioButton wrapText="true" styleClass="option" text="Enter Option" GridPane.rowIndex="4"
+                             GridPane.columnIndex="2" minWidth="500"
+                             fx:id="o4" cursor="HAND"/>
             </GridPane>
 
         </VBox>
@@ -62,9 +67,9 @@
 
             <HBox spacing="40" alignment="CENTER_RIGHT">
                 <Label fx:id="questionResponse" prefWidth="400"/>
-                <Button text="Clear" fx:id="clearBtn" onAction="#clearSelection"/>
-                <Button text="Previous" fx:id="previousQuestionBtn" onAction="#handlePrevious"/>
-                <Button text="Next" fx:id="nextQuestionBtn" onAction="#handleNext"/>
+                <Button text="Clear" fx:id="clearBtn" onAction="#clearSelection" cursor="HAND"/>
+                <Button text="Previous" fx:id="previousQuestionBtn" onAction="#handlePrevious" cursor="HAND"/>
+                <Button text="Next" fx:id="nextQuestionBtn" onAction="#handleNext" cursor="HAND"/>
             </HBox>
 
             <HBox spacing="20" alignment="CENTER_LEFT" fx:id="qNoBox">

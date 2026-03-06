@@ -4,7 +4,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <BorderPane stylesheets="@../styles/dashboard_style.css" xmlns="http://javafx.com/javafx/17.0.12"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="av.entrance.client.controller.admin.DashboardController" minWidth="1000">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="av.entrance.client.controller.admin.DashboardController"
+            minWidth="1000">
     <top>
         <HBox spacing="16" alignment="CENTER">
             <padding>
@@ -12,11 +13,11 @@
             </padding>
             <Label text="Active Tests" prefWidth="240" style="-fx-font-size: 24px; -fx-font-weight: bold;"
                    HBox.hgrow="ALWAYS"/>
-            <Button text="Create New Test" fx:id="createTest" onAction="#createTest" HBox.hgrow="ALWAYS"/>
+            <Button text="Create New Test" fx:id="createTest" onAction="#createTest" HBox.hgrow="ALWAYS" cursor="HAND"/>
             <Button text="Logout" style="-fx-background-color: #bb2121;" fx:id="logout" onAction="#logout"
-                    HBox.hgrow="ALWAYS"/>
+                    HBox.hgrow="ALWAYS" cursor="HAND"/>
             <Button style="-fx-background-color: #bff1f5;" fx:id="refresh" onAction="#refresh"
-                    HBox.hgrow="ALWAYS"/>
+                    HBox.hgrow="ALWAYS" cursor="HAND"/>
         </HBox>
     </top>
     <center>
