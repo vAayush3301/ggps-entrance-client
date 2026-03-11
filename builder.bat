@@ -2,11 +2,11 @@ jpackage --type msi ^
   --dest output ^
   --name "ExamDesk" ^
   --input dist/ ^
-  --main-jar ExamDesk-1.0.jar ^
+  --main-jar ExamDesk-1.1.1.jar ^
   --main-class av.entrance.client.Launcher ^
   --icon "src/main/resources/av/entrance/client/images/logos/logo.ico" ^
   --vendor "Aayush Vishwakarma" ^
-  --app-version "1.1.0" ^
+  --app-version "1.1.1" ^
   --description "Exam Management and Entrance Application" ^
   --copyright "Copyright 2026 Aayush Vishwakarma" ^
   --win-dir-chooser ^
