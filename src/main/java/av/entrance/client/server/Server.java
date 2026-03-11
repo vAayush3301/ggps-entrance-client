@@ -1,5 +1,6 @@
 package av.entrance.client.server;
 
+import av.entrance.client.Client;
 import av.entrance.client.model.Image;
 import av.entrance.client.model.SubmitResponse;
 import av.entrance.client.model.Test;
@@ -37,7 +38,7 @@ public class Server {
         if (responses.isEmpty()) return;
 
         ObjectMapper mapper = new ObjectMapper();
-        URL url = new URL("https://ggps-entrance-xpiz.onrender.com/api/test/submitResponse");
+        URL url = new URL("https://ggps-entrance-xpiz.onrender.com/api/test/submitResponse?clientId=" + Client.CLIENT_ID);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
         conn.setRequestMethod("POST");

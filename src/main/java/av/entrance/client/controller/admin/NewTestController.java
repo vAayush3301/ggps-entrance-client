@@ -1,5 +1,6 @@
 package av.entrance.client.controller.admin;
 
+import av.entrance.client.Client;
 import av.entrance.client.model.Image;
 import av.entrance.client.model.Question;
 import av.entrance.client.model.Test;
@@ -200,7 +201,7 @@ public class NewTestController {
 
         Test test;
         try {
-            test = new Test(testName.getText(), questions, Integer.parseInt(duration));
+            test = new Test(Client.CLIENT_ID, testName.getText(), questions, Integer.parseInt(duration));
             test.setImageKeys(imageKeys);
         } catch (NumberFormatException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);

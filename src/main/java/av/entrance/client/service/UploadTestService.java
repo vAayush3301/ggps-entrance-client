@@ -1,5 +1,6 @@
 package av.entrance.client.service;
 
+import av.entrance.client.Client;
 import av.entrance.client.model.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.concurrent.Service;
@@ -27,7 +28,7 @@ public class UploadTestService extends Service<String> {
 
                 HttpClient client = HttpClient.newHttpClient();
                 HttpRequest request = HttpRequest.newBuilder()
-                        .uri(URI.create("https://ggps-entrance-xpiz.onrender.com/api/test/create"))
+                        .uri(URI.create("https://ggps-entrance-xpiz.onrender.com/api/test/create?clientId=" + Client.CLIENT_ID))
                         .header("Content-Type", "application/json")
                         .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
                         .build();

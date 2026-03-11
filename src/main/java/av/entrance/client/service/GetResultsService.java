@@ -1,5 +1,6 @@
 package av.entrance.client.service;
 
+import av.entrance.client.Client;
 import av.entrance.client.model.SubmitResponse;
 import av.entrance.client.model.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,7 +32,7 @@ public class GetResultsService extends Service<List<SubmitResponse>> {
                     HttpClient client = HttpClient.newHttpClient();
 
                     HttpRequest request = HttpRequest.newBuilder()
-                            .uri(URI.create("https://ggps-entrance-xpiz.onrender.com/api/test/get_results?testId=" + testId))
+                            .uri(URI.create("https://ggps-entrance-xpiz.onrender.com/api/test/get_results?testId=" + testId + "&clientId=" + Client.CLIENT_ID))
                             .timeout(Duration.ofSeconds(40))
                             .GET()
                             .build();

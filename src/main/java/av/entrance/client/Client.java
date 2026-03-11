@@ -12,6 +12,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class Client extends Application {
+    public static final String CLIENT_ID = "GGPSD";
+
     public static void main(String[] args) {
         launch();
     }

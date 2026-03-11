@@ -1,5 +1,6 @@
 package av.entrance.client.service;
 
+import av.entrance.client.Client;
 import av.entrance.client.model.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.concurrent.Service;
@@ -24,7 +25,7 @@ public class DownloadTestService extends Service<List<Test>> {
                     HttpClient client = HttpClient.newHttpClient();
 
                     HttpRequest request = HttpRequest.newBuilder()
-                            .uri(URI.create("https://ggps-entrance-xpiz.onrender.com/api/test/get_tests"))
+                            .uri(URI.create("https://ggps-entrance-xpiz.onrender.com/api/test/get_tests?clientId=" + Client.CLIENT_ID))
                             .timeout(Duration.ofSeconds(40))
                             .GET()
                             .build();
